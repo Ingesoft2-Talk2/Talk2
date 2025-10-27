@@ -18,18 +18,18 @@ A web-based video conferencing platform that enables users to create, join, and 
 
 ---
 
-## **Tecnologías utilizadas**
+## **Technologies used**
 * **Framework fullstack:** Next.js
 * **Frontend:** React, TypeScript, Tailwind
 * **Backend:** Node.js, Prisma ORM
-* **Base de Datos:** PostgreSQL
-* **Autenticación:** OAuth2 (Google)
+* **Database:** PostgreSQL
+* **Authentication:** OAuth2 (Google)
 * **Testing:** Cypress
-* **Despliegue:** Vercel
+* **Deployment:** Vercel
 
 ---
 
-## **Estructura del Repositorio**  
+## **Repository Structure**  
 
 ```plaintext
 .
