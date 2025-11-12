@@ -30,8 +30,8 @@ export default function Home() {
             secure and reliable video calls anytime, anywhere.
           </p>
           <Link
-            href="#"
-            className="inline-block bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold shadow hover:bg-blue-700 transition"
+            href="/dashboard"
+            className="inline-block bg-blue-600 text-white px-6 py-3 rounded-lg shadow hover:bg-blue-700 transition"
           >
             Get Started
           </Link>
@@ -44,7 +44,6 @@ export default function Home() {
             width={675}
             height={609}
             className="w-3/4 sm:w-2/3 lg:w-full h-auto mx-auto"
-            priority
           />
         </div>
       </div>
