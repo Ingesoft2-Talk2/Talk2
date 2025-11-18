@@ -76,16 +76,16 @@ export default function CallList({ type }: CallListProps) {
     const date = new Date(dateString);
 
     const options: Intl.DateTimeFormatOptions = {
-      day: '2-digit',
-      month: '2-digit',
-      year: 'numeric',
-      hour: 'numeric',
-      minute: '2-digit',
-      hourCycle: 'h12',
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+      hour: "numeric",
+      minute: "2-digit",
+      hourCycle: "h12",
       timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
     };
 
-    return date.toLocaleString('en', options);
+    return date.toLocaleString("en", options);
   };
 
   const calls = getCalls();
@@ -116,14 +116,15 @@ export default function CallList({ type }: CallListProps) {
             }
             date={formatMeetingTime(
               (meeting as Call).state?.startsAt ||
-              (meeting as CallRecording).start_time
+                (meeting as CallRecording).start_time,
             )}
             isPreviousMeeting={type === "ended"}
             link={
               type === "recordings"
                 ? (meeting as CallRecording).url
-                : `${process.env.NEXT_PUBLIC_BASE_URL}/meeting/${(meeting as Call).id
-                }`
+                : `${process.env.NEXT_PUBLIC_BASE_URL}/meeting/${
+                    (meeting as Call).id
+                  }`
             }
             ButtonIcon1={type === "recordings" ? Play : undefined}
             buttonText={type === "recordings" ? "Play" : "Start"}
@@ -133,7 +134,6 @@ export default function CallList({ type }: CallListProps) {
                 : () => router.push(`/meeting/${(meeting as Call).id}`)
             }
           />
-
         ))
       ) : (
         <h1 className="text-2xl font-bold text-black">{noCallsMessage}</h1>
