@@ -1,5 +1,8 @@
 "use client";
 
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { toast } from "react-toastify";
 import ReactPortal from "@/components/shared/ReactPortal";
 
 type JoinMeetingModal = {
@@ -11,7 +14,28 @@ export default function JoinMeetingModal({
   isOpen,
   handleClose,
 }: JoinMeetingModal) {
+  const router = useRouter();
+  const [meetingLink, setMeetingLink] = useState("");
+
   if (!isOpen) return null;
+
+  const handleJoin = () => {
+    let link = meetingLink.trim();
+
+    if (!link.startsWith("http://") && !link.startsWith("https://")) {
+      link = `http://${link}`;
+    }
+
+    const BASE = `http://${process.env.NEXT_PUBLIC_BASE_URL}/meeting/`;
+    const BASE_HTTPS = `https://${process.env.NEXT_PUBLIC_BASE_URL}/meeting/`;
+
+    if (link.startsWith(BASE) || link.startsWith(BASE_HTTPS)) {
+      router.push(link);
+    } else {
+      toast.error("Invalid Link");
+      toast.clearWaitingQueue();
+    }
+  };
 
   return (
     <ReactPortal wrapperId="react-portal-modal-container">
@@ -30,16 +54,18 @@ export default function JoinMeetingModal({
             <h1 className="text-3xl font-bold leading-[42px] flex justify-center">
               Type the link here
             </h1>
+
             <input
               className="border-none bg-gray-200 p-2 focus-visible:ring-0 focus-visible:ring-offset-0 rounded-md focus:outline-none"
               placeholder="Meeting link"
-            ></input>
+              value={meetingLink}
+              onChange={(e) => setMeetingLink(e.target.value)}
+            />
+
             <button
               type="button"
-              className={
-                "bg-blue-500 focus-visible:ring-0 focus-visible:ring-offset-0 text-white rounded-md p-2 cursor-pointer hover:bg-blue-700"
-              }
-              onClick={() => console.log("todo")}
+              className="bg-blue-500 focus-visible:ring-0 focus-visible:ring-offset-0 text-white rounded-md p-2 cursor-pointer hover:bg-blue-700"
+              onClick={handleJoin}
             >
               &nbsp; Join Meeting
             </button>

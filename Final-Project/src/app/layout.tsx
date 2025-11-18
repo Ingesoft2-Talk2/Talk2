@@ -1,6 +1,7 @@
 import { ClerkProvider } from "@clerk/nextjs";
 import type { Metadata } from "next";
 import { Varela_Round } from "next/font/google";
+import "@stream-io/video-react-sdk/dist/css/styles.css";
 import "./globals.css";
 
 const varelaRound = Varela_Round({

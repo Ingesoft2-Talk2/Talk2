@@ -3,8 +3,8 @@
 import { useUser } from "@clerk/nextjs";
 import { StreamVideo, StreamVideoClient } from "@stream-io/video-react-sdk";
 import { useEffect, useState } from "react";
-
 import { tokenProvider } from "@/../actions/stream.actions";
+import Loader from "@/components/shared/Loader";
 
 const API_KEY = process.env.NEXT_PUBLIC_STREAM_API_KEY;
 
@@ -33,7 +33,7 @@ export default function StreamVideoProvider({
     setVideoClient(client);
   }, [user, isLoaded]);
 
-  if (!videoClient) return <div>TODO: Skeleton</div>;
+  if (!videoClient) return <Loader text="Creating your video client..." />;
 
   return <StreamVideo client={videoClient}>{children}</StreamVideo>;
 }

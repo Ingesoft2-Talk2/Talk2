@@ -11,6 +11,25 @@
   }
 }
 
+.str-video__device-settings {
+  font-family: var(--font-varela-round);
+}
+
+.device-settings-override
+  .str-video__device-settings__device-kind
+  .str-video__option,
+.device-settings-override
+  .str-video__device-settings__device-kind
+  .str-video__device-settings__option {
+  font-weight: 400;
+}
+
+.device-settings-override
+  .str-video__device-settings__device-kind
+  .str-video__device-settings__device-selector-title {
+  font-weight: 400;
+}
+
 body {
   color: var(--foreground);
   background: var(--background);
