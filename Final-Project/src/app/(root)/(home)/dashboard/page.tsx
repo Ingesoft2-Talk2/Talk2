@@ -33,9 +33,9 @@ export default function Dashboard() {
 
     upcomingMeetingText = isToday
       ? `Upcoming Meeting: ${meetingDate.toLocaleTimeString("en-US", {
-        hour: "2-digit",
-        minute: "2-digit",
-      })}`
+          hour: "2-digit",
+          minute: "2-digit",
+        })}`
       : "No meetings scheduled for today";
   } else {
     upcomingMeetingText = "No meetings scheduled for today";

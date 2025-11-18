@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@clerk/nextjs": "^6.34.5",
+    "@n8n/chat": "^0.66.0",
     "@stream-io/node-sdk": "^0.7.17",
     "@stream-io/video-react-sdk": "^1.25.1",
     "lucide-react": "^0.545.0",

@@ -1,3 +1,4 @@
+import N8nChatWidget from "@/components/shared/N8nChatWidget";
 import Navbar from "@/components/shared/Navbar";
 import Sidebar from "@/components/shared/Sidebar";
 
@@ -17,6 +18,7 @@ export default function HomeLayout({
           <div className="w-full">{children}</div>
         </section>
       </div>
+      <N8nChatWidget />
     </main>
   );
 }
