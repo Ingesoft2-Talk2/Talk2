@@ -9,13 +9,13 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import LPFirst from "@/assets/landing-page/video-chat.svg";
-import NavBar from "@/components/landing-page/Navbar";
+import LandingNavbar from "@/components/landing-page/LandingNavbar";
 
 export default function Home() {
   return (
     <div className="min-h-screen bg-white text-black">
       <div className="p-6 sm:p-10 max-w-screen-xl mx-auto">
-        <NavBar />
+        <LandingNavbar />
       </div>
 
       <div className="flex flex-col items-center justify-center gap-12 px-6 sm:px-10 lg:px-16 xl:px-24 max-w-screen-xl mx-auto lg:flex-row">

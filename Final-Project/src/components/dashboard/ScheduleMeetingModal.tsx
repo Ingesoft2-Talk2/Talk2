@@ -1,18 +1,65 @@
 "use client";
 
+import { useUser } from "@clerk/nextjs";
+import { useStreamVideoClient } from "@stream-io/video-react-sdk";
+import { useState } from "react";
+import { toast } from "react-toastify";
+import Loader from "@/components/shared/Loader";
 import ReactPortal from "@/components/shared/ReactPortal";
 
 type ScheduleMeetingModal = {
   isOpen: boolean;
   handleClose: () => void;
+  onSuccess: (callId: string) => void;
 };
 
 export default function ScheduleMeetingModal({
   isOpen,
   handleClose,
+  onSuccess,
 }: ScheduleMeetingModal) {
+  const { user } = useUser();
+  const client = useStreamVideoClient();
+  const [description, setDescription] = useState("");
+  const [dateTime, setDateTime] = useState("");
+
   if (!isOpen) return null;
 
+  const createScheduledMeeting = async () => {
+    if (!client || !user) {
+      toast.error("User or client not available");
+      return;
+    }
+    try {
+      if (!description) {
+        toast.error("Please create a description");
+        return;
+      }
+      if (!dateTime) {
+        toast.error("Please select a date and time");
+        return;
+      }
+      const id = crypto.randomUUID();
+      const call = client.call("default", id);
+
+      if (!call) throw new Error("Failed to schedule meeting");
+      console.log(dateTime);
+
+      await call.getOrCreate({
+        data: {
+          starts_at: new Date(dateTime).toISOString(),
+          custom: { description: description },
+        },
+      });
+
+      onSuccess(call.id);
+      toast.success("Meeting Scheduled");
+    } catch {
+      toast.error("Failed to schedule meeting");
+    }
+  };
+
+  if (!client || !user) return <Loader text="Getting your user..." />;
   return (
     <ReactPortal wrapperId="react-portal-modal-container">
       <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-sm">
@@ -39,6 +86,8 @@ export default function ScheduleMeetingModal({
               </label>
               <textarea
                 id="meeting-description"
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
                 className="border-none bg-dark-3 focus-visible:ring-0 focus-visible:ring-offset-0 bg-gray-200 rounded-md p-2 max-h-40 resize-y min-h-24 focus:outline-none"
               />
             </div>
@@ -52,6 +101,8 @@ export default function ScheduleMeetingModal({
               <input
                 id="meeting-datetime"
                 type="datetime-local"
+                value={dateTime}
+                onChange={(e) => setDateTime(e.target.value)}
                 className="w-full rounded bg-dark-3 p-2 focus:outline-none bg-gray-200"
               />
             </div>
@@ -61,9 +112,9 @@ export default function ScheduleMeetingModal({
               className={
                 "bg-blue-500 focus-visible:ring-0 focus-visible:ring-offset-0 text-white rounded-md p-2 cursor-pointer hover:bg-blue-700"
               }
-              onClick={() => console.log("todo")}
+              onClick={() => createScheduledMeeting()}
             >
-              &nbsp; Join Meeting
+              &nbsp; Schedule Meeting
             </button>
           </div>
         </div>

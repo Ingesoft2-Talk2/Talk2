@@ -15,6 +15,7 @@ export default function RootLayout({
           hideProgressBar={false}
           closeOnClick={true}
           pauseOnHover={false}
+          limit={3}
         />
         {children}
       </StreamVideoProvider>

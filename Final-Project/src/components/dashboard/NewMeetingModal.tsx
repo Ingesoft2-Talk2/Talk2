@@ -4,6 +4,7 @@ import { useUser } from "@clerk/nextjs";
 import { useStreamVideoClient } from "@stream-io/video-react-sdk";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
+import Loader from "@/components/shared/Loader";
 import ReactPortal from "@/components/shared/ReactPortal";
 
 type NewMeetingModal = {
@@ -46,7 +47,7 @@ export default function NewMeetingModal({
     }
   };
 
-  if (!client || !user) return <div>TODO: Loader</div>;
+  if (!client || !user) return <Loader text="Getting your user..." />;
 
   return (
     <ReactPortal wrapperId="react-portal-modal-container">

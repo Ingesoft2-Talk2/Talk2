@@ -1,14 +1,14 @@
 import Navbar from "@/components/shared/Navbar";
 import Sidebar from "@/components/shared/Sidebar";
 
-export default function RootLayout({
+export default function HomeLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
     <main className="relative">
-      <Navbar />
+      <Navbar showHamburgerMenu={true} />
 
       <div className="flex">
         <Sidebar />
