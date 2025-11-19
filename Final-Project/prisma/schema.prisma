@@ -1,0 +1,71 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id               String         @id @default(uuid())
+  clerkId          String         @unique
+  email            String         @unique
+  name             String
+  imageUrl         String?
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
+  hostedMeetings   Meeting[]      @relation("HostedMeetings")
+  participations   Participant[]
+  changesTriggered UserAuditLog[] @relation("ChangedBy")
+  auditLogs        UserAuditLog[] @relation("UserHistory")
+}
+
+model Meeting {
+  id           String        @id @default(uuid())
+  title        String
+  description  String?
+  code         String        @unique
+  status       MeetingStatus @default(SCHEDULED)
+  hostId       String
+  createdAt    DateTime      @default(now())
+  startsAt     DateTime?
+  endedAt      DateTime?
+  host         User          @relation("HostedMeetings", fields: [hostId], references: [id], onDelete: Cascade)
+  participants Participant[]
+}
+
+model Participant {
+  id        String   @id @default(uuid())
+  meetingId String
+  userId    String
+  role      Role     @default(ATTENDEE)
+  joinedAt  DateTime @default(now())
+  meeting   Meeting  @relation(fields: [meetingId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([meetingId, userId])
+}
+
+model UserAuditLog {
+  id            String   @id @default(uuid())
+  userId        String
+  action        String
+  changedBy     String?
+  details       Json?
+  timestamp     DateTime @default(now())
+  changedByUser User?    @relation("ChangedBy", fields: [changedBy], references: [id])
+  user          User     @relation("UserHistory", fields: [userId], references: [id], onDelete: Cascade)
+}
+
+enum MeetingStatus {
+  SCHEDULED
+  LIVE
+  COMPLETED
+  CANCELLED
+}
+
+enum Role {
+  HOST
+  ATTENDEE
+}
