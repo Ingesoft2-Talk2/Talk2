@@ -8,7 +8,7 @@ export default function N8nChatWidget() {
   useEffect(() => {
     createChat({
       webhookUrl:
-        "https://acsorbi.app.n8n.cloud/webhook/206f731a-85dc-437f-9f59-2b4bd15ef166/chat",
+        "https://acsorbi2.app.n8n.cloud/webhook/206f731a-85dc-437f-9f59-2b4bd15ef166/chat",
       webhookConfig: {
         method: "POST",
         headers: {},
