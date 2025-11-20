@@ -1,25 +1,27 @@
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient } from '../src/generated/prisma'
 
 const prisma = new PrismaClient();
 
 async function main() {
-    console.log('Starting seed');
+    console.log('Starting seed...');
 
-  // 1. Clear existing data (Order matters due to foreign keys)
-    await prisma.auditLog.deleteMany();
-    await prisma.callParticipant.deleteMany();
-    await prisma.message.deleteMany();
-    await prisma.invitation.deleteMany();
-    await prisma.call.deleteMany();
-    await prisma.room.deleteMany();
-    await prisma.profile.deleteMany();
-    await prisma.user.deleteMany();
 
-    console.log('Creating users and profiles...');
+await prisma.friendship.deleteMany(); 
+await prisma.auditLog.deleteMany();
+await prisma.callParticipant.deleteMany();
+await prisma.message.deleteMany();
+await prisma.invitation.deleteMany();
+await prisma.call.deleteMany();
+await prisma.room.deleteMany();
+await prisma.profile.deleteMany();
+await prisma.user.deleteMany();
+
+console.log('Creating users and profiles...');
 
   // Create User 1 - Host (Alice)
 const user1 = await prisma.user.create({
     data: {
+      clerkId: 'user_2abc123', // REQUIRED FIELD ADDED
         email: 'alice@example.com',
         isActive: true,
         profile: {
@@ -35,6 +37,7 @@ const user1 = await prisma.user.create({
   // Create User 2 - Attendee (Bob)
 const user2 = await prisma.user.create({
     data: {
+      clerkId: 'user_2def456', // REQUIRED FIELD ADDED
         email: 'bob@example.com',
         isActive: true,
         profile: {
@@ -50,6 +53,7 @@ const user2 = await prisma.user.create({
   // Create User 3 - Attendee (Charlie)
 const user3 = await prisma.user.create({
     data: {
+      clerkId: 'user_2ghi789', // REQUIRED FIELD ADDED
         email: 'charlie@example.com',
         isActive: true,
         profile: {
@@ -73,7 +77,7 @@ const updatedUser2 = await prisma.user.update({
 
   // Create audit log for email change
 await prisma.auditLog.create({
-    data: {
+        data: {
         userId: user2.id,
         action: 'UPDATE_EMAIL',
         details: {
@@ -102,7 +106,7 @@ const room1 = await prisma.room.create({
     },
     include: { calls: true }
 });
-const call1 = room1.calls[0]; // Get the call created above
+  const call1 = room1.calls[0]; // Get the call created above
 
   // --- Meeting 2: LIVE (ONGOING) ---
 const room2 = await prisma.room.create({
@@ -149,7 +153,7 @@ await prisma.callParticipant.createMany({
         { callId: call1.id, userId: user1.id, roleInCall: 'HOST' },
         { callId: call1.id, userId: user2.id, roleInCall: 'GUEST' },
         { callId: call1.id, userId: user3.id, roleInCall: 'GUEST' },
-    ]
+        ]
 });
 
   // Meeting 2 Participants
@@ -157,7 +161,7 @@ await prisma.callParticipant.createMany({
     data: [
         { callId: call2.id, userId: user1.id, roleInCall: 'HOST' },
         { callId: call2.id, userId: user2.id, roleInCall: 'GUEST' },
-    ]
+        ]
 });
 
   // Meeting 3 Participants
@@ -165,35 +169,17 @@ await prisma.callParticipant.createMany({
     data: [
         { callId: call3.id, userId: user2.id, roleInCall: 'HOST' },
         { callId: call3.id, userId: user3.id, roleInCall: 'GUEST' },
-    ]
+        ]
 });
 
-console.log('Creating additional audit logs...');
-
-  // User 1 profile update (Image Change)
-await prisma.auditLog.create({
+console.log('Creating friends...');
+  // Alice sends request to Bob (PENDING)
+await prisma.friendship.create({
     data: {
-        userId: user1.id,
-        action: 'PROFILE_UPDATE',
-        details: {
-            field: 'avatarUrl',
-            oldValue: null,
-            newValue: user1.profile?.avatarUrl,
-        },
-    },
-});
-
-  // User 3 name change
-await prisma.auditLog.create({
-    data: {
-        userId: user3.id,
-        action: 'PROFILE_UPDATE',
-        details: {
-            field: 'displayName',
-            oldValue: 'Charlie D.',
-            newValue: 'Charlie Davis',
-        },
-    },
+        requesterId: user1.id,
+        addresseeId: user2.id,
+        status: 'PENDING'
+        }
 });
 
 console.log('Seed completed successfully!');
