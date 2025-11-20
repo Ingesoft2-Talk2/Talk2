@@ -13,10 +13,12 @@
   "dependencies": {
     "@clerk/nextjs": "^6.34.5",
     "@n8n/chat": "^0.66.0",
+    "@prisma/client": "^6.19.0",
     "@stream-io/node-sdk": "^0.7.17",
     "@stream-io/video-react-sdk": "^1.25.1",
     "lucide-react": "^0.545.0",
     "next": "15.5.4",
+    "prisma": "^6.19.0",
     "react": "19.1.0",
     "react-dom": "19.1.0",
     "react-toastify": "^11.0.5"
@@ -29,5 +31,9 @@
     "@types/react-dom": "^19",
     "tailwindcss": "^4",
     "typescript": "^5"
+  },
+  "prisma": { 
+    "schema": "prisma/schema.prisma",
+    "seed": "tsx prisma/seed.ts"
   }
 }
