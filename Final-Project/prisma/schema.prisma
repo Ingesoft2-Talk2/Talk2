@@ -1,5 +1,6 @@
 generator client {
   provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
 }
 
 datasource db {
@@ -7,18 +8,53 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// --- 1. Users & Auth ---
+// --- Enums ---
+enum MeetingStatus {
+  SCHEDULED
+  LIVE
+  COMPLETED
+  CANCELLED
+}
+
+// RENAMED: Changed from "Role" to "MeetingRole" to avoid conflict with the "Role" table below
+enum MeetingRole {
+  HOST
+  ATTENDEE
+}
+
+enum FriendshipStatus {
+  PENDING
+  ACCEPTED
+  BLOCKED
+}
+
+// --- Models ---
+
 model User {
   id            String    @id @default(uuid())
+  clerkId       String    @unique // Keep this for Clerk sync
   email         String    @unique
-  passwordHash  String?   @map("password_hash") // Optional for OAuth users
+  passwordHash  String?   @map("password_hash") 
   isActive      Boolean   @default(true) @map("is_active")
+  
+  // Combine fields from both versions for safety
+  name          String?
+  password      String? 
+  imageUrl      String?
+
   createdAt     DateTime  @default(now()) @map("created_at")
+  updatedAt     DateTime  @updatedAt @map("updated_at")
   lastLoginAt   DateTime? @map("last_login_at")
 
   // Relations
   profile          Profile?
   userRoles        UserRole[]
+  
+  // Old Meeting System Relations
+  hostedMeetings   Meeting[]       @relation("HostedMeetings")
+  participations   Participant[]
+  
+  // New Room/Call System Relations
   ownedRooms       Room[]            @relation("RoomOwner")
   hostedCalls      Call[]            @relation("CallHost")
   callParticipation CallParticipant[]
@@ -26,13 +62,65 @@ model User {
   devices          Device[]
   sentInvitations  Invitation[]      @relation("Inviter")
   receivedInvites  Invitation[]      @relation("Invitee")
-  auditLogs        AuditLog[]
+  
+  auditLogs        UserAuditLog[]  @relation("UserHistory")
+  auditLogsSystem  AuditLog[]
+
+  // Friend System
+  sentFriendRequests     Friendship[] @relation("FriendRequester")
+  receivedFriendRequests Friendship[] @relation("FriendAddressee")
 
   @@map("users")
 }
 
+// --- OLD MEETING SYSTEM (kept to prevent breaking old code) ---
+model Meeting {
+  id          String        @id @default(uuid())
+  title       String
+  description String?
+  code        String        @unique
+  status      MeetingStatus @default(SCHEDULED)
+  
+  hostId      String
+  host        User          @relation("HostedMeetings", fields: [hostId], references: [id], onDelete: Cascade)
+  
+  participants Participant[]
+  
+  createdAt   DateTime      @default(now())
+  startsAt    DateTime?
+  endedAt     DateTime?
+}
+
+model Participant {
+  id        String   @id @default(uuid())
+  meetingId String
+  userId    String
+  // UPDATED: Uses the new unique enum name
+  role      MeetingRole     @default(ATTENDEE)
+
+  meeting   Meeting  @relation(fields: [meetingId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  joinedAt  DateTime @default(now())
+
+  @@unique([meetingId, userId])
+}
+
+model UserAuditLog {
+  id          String   @id @default(uuid())
+  userId      String
+  user        User     @relation("UserHistory", fields: [userId], references: [id], onDelete: Cascade)
+  
+  action      String   
+  changedBy   String?  
+  details     Json?    
+  timestamp   DateTime @default(now())
+}
+
+// --- NEW COMPLEX SYSTEM ---
+
 model Profile {
-  userId      String   @id @map("user_id") // One-to-One: PK is also FK
+  userId      String   @id @map("user_id")
   displayName String?  @map("display_name")
   avatarUrl   String?  @map("avatar_url")
   bio         String?
@@ -46,6 +134,7 @@ model Profile {
   @@map("profiles")
 }
 
+// THIS is the table that caused the conflict
 model Role {
   id   Int        @id @default(autoincrement()) @db.SmallInt
   name String     @unique @db.VarChar(50)
@@ -58,18 +147,17 @@ model Role {
 model UserRole {
   userId     String    @map("user_id")
   roleId     Int       @map("role_id") @db.SmallInt
-  scopeType  String?   @map("scope_type") @db.VarChar(50) // e.g. "SYSTEM", "ROOM"
+  scopeType  String?   @map("scope_type") @db.VarChar(50)
   scopeId    String?   @map("scope_id")
   assignedAt DateTime  @default(now()) @map("assigned_at")
 
   user       User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   role       Role      @relation(fields: [roleId], references: [id], onDelete: Cascade)
 
-  @@id([userId, roleId]) // Composite Key
+  @@id([userId, roleId])
   @@map("user_roles")
 }
 
-// --- 2. Rooms & Calls ---
 model Room {
   id              String   @id @default(uuid())
   ownerId         String   @map("owner_id")
@@ -78,12 +166,12 @@ model Room {
   isPrivate       Boolean  @default(false) @map("is_private")
   maxParticipants Int?     @map("max_participants")
   createdAt       DateTime @default(now()) @map("created_at")
-  settings        Json?    // Using JSON for flexible settings
+  settings        Json?
 
   owner           User     @relation("RoomOwner", fields: [ownerId], references: [id], onDelete: Cascade)
   calls           Call[]
   invitations     Invitation[]
-  messages        Message[] // Room-level chat history
+  messages        Message[]
   auditLogs       AuditLog[]
 
   @@map("rooms")
@@ -95,13 +183,13 @@ model Call {
   hostUserId  String    @map("host_user_id")
   startedAt   DateTime  @default(now()) @map("started_at")
   endedAt     DateTime? @map("ended_at")
-  status      String    @db.VarChar(20) // "ONGOING", "ENDED"
+  status      String    @db.VarChar(20)
   metadata    Json?
 
   room         Room              @relation(fields: [roomId], references: [id], onDelete: Cascade)
   host         User              @relation("CallHost", fields: [hostUserId], references: [id])
   participants CallParticipant[]
-  messages     Message[]         // Call-specific chat
+  messages     Message[]
   auditLogs    AuditLog[]
 
   @@map("calls")
@@ -116,7 +204,7 @@ model CallParticipant {
   leftAt         DateTime? @map("left_at")
   isMuted        Boolean   @default(false) @map("is_muted")
   isVideoEnabled Boolean   @default(true) @map("is_video_enabled")
-  roleInCall     String?   @map("role_in_call") @db.VarChar(30) // "HOST", "GUEST"
+  roleInCall     String?   @map("role_in_call") @db.VarChar(30)
   connectionInfo String?   @map("connection_info")
 
   call   Call @relation(fields: [callId], references: [id], onDelete: Cascade)
@@ -125,7 +213,6 @@ model CallParticipant {
   @@map("call_participants")
 }
 
-// --- 3. Communications ---
 model Message {
   id           String   @id @default(uuid())
   roomId       String?  @map("room_id")
@@ -150,7 +237,7 @@ model Invitation {
   inviteeUserId String   @map("invitee_user_id")
   token         String   @unique @db.VarChar(128)
   expiresAt     DateTime @map("expires_at")
-  status        String   @db.VarChar(20) // "PENDING", "ACCEPTED", "DECLINED"
+  status        String   @db.VarChar(20)
   createdAt     DateTime @default(now()) @map("created_at")
   metadata      Json?
 
@@ -161,7 +248,6 @@ model Invitation {
   @@map("invitations")
 }
 
-// --- 4. System & Logs ---
 model Device {
   id                 String   @id @default(uuid())
   userId             String   @map("user_id")
@@ -181,7 +267,7 @@ model AuditLog {
   userId    String   @map("user_id")
   roomId    String?  @map("room_id")
   callId    String?  @map("call_id")
-  action    String   @db.VarChar(100) // "USER_LOGIN", "ROOM_CREATED"
+  action    String   @db.VarChar(100)
   details   Json?
   createdAt DateTime @default(now()) @map("created_at")
 
@@ -190,4 +276,20 @@ model AuditLog {
   call Call? @relation(fields: [callId], references: [id])
 
   @@map("audit_logs")
+}
+
+model Friendship {
+  id          String           @id @default(uuid())
+  requesterId String           @map("requester_id")
+  addresseeId String           @map("addressee_id")
+  status      FriendshipStatus @default(PENDING)
+  
+  createdAt   DateTime         @default(now()) @map("created_at")
+  acceptedAt  DateTime?        @map("accepted_at")
+
+  requester   User             @relation("FriendRequester", fields: [requesterId], references: [id], onDelete: Cascade)
+  addressee   User             @relation("FriendAddressee", fields: [addresseeId], references: [id], onDelete: Cascade)
+
+  @@unique([requesterId, addresseeId])
+  @@map("friends")
 }

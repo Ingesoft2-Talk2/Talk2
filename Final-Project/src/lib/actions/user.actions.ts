@@ -11,7 +11,7 @@ export async function updateUser(
   if (!oldUser) throw new Error("User not found");
 
   // 2. Use a Transaction to ensure both the Update and the Log happen together
-  return await prisma.$transaction(async (tx: typeof prisma) => {
+  return await prisma.$transaction(async (tx) => {
     
     // Update the user
     const updatedUser = await tx.user.update({
@@ -20,6 +20,7 @@ export async function updateUser(
     });
 
     // Calculate what changed
+
     const changes: Record<string, any> = {};
 
     // Check Email
