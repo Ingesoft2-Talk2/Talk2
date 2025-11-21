@@ -16,10 +16,15 @@ export default function JoinMeetingModal({
 }: JoinMeetingModal) {
   const router = useRouter();
   const [meetingLink, setMeetingLink] = useState("");
+  const [isJoining, setIsJoining] = useState(false);
 
   if (!isOpen) return null;
 
   const handleJoin = () => {
+    if (isJoining) return;
+
+    setIsJoining(true);
+
     let link = meetingLink.trim();
 
     if (!link.startsWith("http://") && !link.startsWith("https://")) {
@@ -34,6 +39,7 @@ export default function JoinMeetingModal({
     } else {
       toast.error("Invalid Link");
       toast.clearWaitingQueue();
+      setIsJoining(false);
     }
   };
 
@@ -64,10 +70,16 @@ export default function JoinMeetingModal({
 
             <button
               type="button"
-              className="bg-blue-500 focus-visible:ring-0 focus-visible:ring-offset-0 text-white rounded-md p-2 cursor-pointer hover:bg-blue-700"
+              disabled={isJoining}
+              className={`rounded-md p-2 text-white 
+                ${
+                  isJoining
+                    ? "bg-gray-400"
+                    : "bg-blue-500 hover:bg-blue-700 cursor-pointer"
+                }`}
               onClick={handleJoin}
             >
-              &nbsp; Join Meeting
+              {isJoining ? "Joining..." : "Join Meeting"}
             </button>
           </div>
         </div>

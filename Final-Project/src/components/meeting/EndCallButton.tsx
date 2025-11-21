@@ -2,10 +2,13 @@
 
 import { useCall, useCallStateHooks } from "@stream-io/video-react-sdk";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { toast } from "react-toastify";
 
 export default function EndCallButton() {
   const call = useCall();
   const router = useRouter();
+  const [isNavigating, setIsNavigating] = useState(false);
 
   if (!call)
     throw new Error(
@@ -23,17 +26,29 @@ export default function EndCallButton() {
   if (!isMeetingOwner) return null;
 
   const endCall = async () => {
-    await call.endCall();
-    router.push("/dashboard");
+    if (isNavigating) return;
+
+    setIsNavigating(true);
+
+    try {
+      await call.endCall();
+      router.push("/dashboard");
+    } catch {
+      toast.error("Failed to end meeting");
+      setIsNavigating(false);
+    }
   };
 
   return (
     <button
       type="button"
+      disabled={isNavigating}
+      className={
+        "text-center  text-white rounded-md p-2 cursor-pointer bg-red-500 hover:bg-red-700"
+      }
       onClick={endCall}
-      className=" text-center bg-red-500 focus-visible:ring-0 focus-visible:ring-offset-0 text-white rounded-md p-2 cursor-pointer hover:bg-red-700 border-none"
     >
-      End call for everyone
+      {isNavigating ? "Ending meeting..." : "End call for everyone"}
     </button>
   );
 }

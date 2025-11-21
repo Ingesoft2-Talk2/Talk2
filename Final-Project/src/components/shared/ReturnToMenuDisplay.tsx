@@ -1,4 +1,7 @@
-import Link from "next/link";
+"use client";
+
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 interface ReturnToMenuDisplayProps {
   title: string;
@@ -9,6 +12,16 @@ export default function ReturnToMenuDisplay({
   title,
   Icon,
 }: ReturnToMenuDisplayProps) {
+  const [isNavigating, setIsNavigating] = useState(false);
+  const router = useRouter();
+
+  const handleClick = () => {
+    if (isNavigating) return;
+    setIsNavigating(true);
+
+    router.push("/dashboard");
+  };
+
   return (
     <section className="flex justify-center items-center h-screen w-full">
       <div className="w-full max-w-[520px] p-6 py-9 text-black rounded-2xl shadow-lg border border-gray-300">
@@ -22,12 +35,20 @@ export default function ReturnToMenuDisplay({
             <p className="text-center text-xl">{title}</p>
           </div>
 
-          <Link
-            href="/dashboard"
-            className="w-full text-center py-3 bg-blue-500 focus-visible:ring-0 focus-visible:ring-offset-0 text-white rounded-md p-2 cursor-pointer hover:bg-blue-700 border-none"
+          <button
+            type="button"
+            onClick={handleClick}
+            disabled={isNavigating}
+            className={`w-full text-center py-3 rounded-md p-2 text-white border-none
+              ${
+                isNavigating
+                  ? "bg-gray-400"
+                  : "bg-blue-500 hover:bg-blue-700 cursor-pointer"
+              }
+            `}
           >
-            Back to Dashboard
-          </Link>
+            {isNavigating ? "Loading..." : "Back to Dashboard"}
+          </button>
         </div>
       </div>
     </section>
