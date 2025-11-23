@@ -1,4 +1,5 @@
 import {
+  BookUser,
   Calendar,
   History,
   LayoutDashboard,
@@ -11,6 +12,11 @@ export const sidebarLinks = [
     icon: LayoutDashboard,
     route: "/dashboard",
     label: "Dashboard",
+  },
+  {
+    icon: BookUser,
+    route: "/friends",
+    label: "Friends",
   },
   {
     icon: Calendar,
