@@ -19,7 +19,7 @@ export default function DashboardCard({
     <button
       type="button"
       onClick={handleClick}
-      className={`${color} px-4 py-6 flex flex-col justify-between w-full xl:max-w-[270px] min-h-[260px] rounded-[14px] cursor-pointer text-left transition-transform hover:scale-[1.02] focus:outline-none`}
+      className={`${color} px-4 py-6 flex flex-col justify-between w-full xl:max-w-[270px] min-h-[260px] rounded-[14px] cursor-pointer text-left transition-transform hover:scale-[1.02] focus:outline-none `}
     >
       <div className="flex justify-center items-center size-12 rounded-[10px]">
         <Icon size={28} />

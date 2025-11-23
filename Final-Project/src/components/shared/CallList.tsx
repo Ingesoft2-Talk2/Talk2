@@ -10,6 +10,7 @@ import {
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useGetCalls } from "@/hooks/useGetCalls";
+import { formatDate } from "@/utils/date";
 import Loader from "./Loader";
 import MeetingCard from "./MeetingCard";
 
@@ -19,9 +20,11 @@ interface CallListProps {
 
 export default function CallList({ type }: CallListProps) {
   const router = useRouter();
-  const { endedCalls, upcomingCalls, callRecordings, isLoading } =
+  const { endedCalls, upcomingCalls, callRecordings, isLoading, refetch } =
     useGetCalls();
+
   const [recordings, setRecordings] = useState<CallRecording[]>([]);
+  const [isNavigating, setIsNavigating] = useState(false);
 
   useEffect(() => {
     const fetchRecordings = async () => {
@@ -70,28 +73,8 @@ export default function CallList({ type }: CallListProps) {
     }
   };
 
-  const formatMeetingTime = (dateString: string | Date | undefined) => {
-    if (!dateString) return "Invalid Date";
-
-    const date = new Date(dateString);
-
-    const options: Intl.DateTimeFormatOptions = {
-      day: "2-digit",
-      month: "2-digit",
-      year: "numeric",
-      hour: "numeric",
-      minute: "2-digit",
-      hourCycle: "h12",
-      timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-    };
-
-    return date.toLocaleString("en", options);
-  };
-
   const calls = getCalls();
   const noCallsMessage = getNoCallsMessage();
-
-  console.log(new Date("2025-11-16T01:50:35.94563Z").toLocaleString());
   return (
     <div className="grid grid-cols-1 gap-5 xl:grid-cols-2">
       {calls && calls.length > 0 ? (
@@ -114,11 +97,12 @@ export default function CallList({ type }: CallListProps) {
               (meeting as CallRecording).filename?.substring(0, 20) ||
               "No Description"
             }
-            date={formatMeetingTime(
+            date={formatDate(
               (meeting as Call).state?.startsAt ||
                 (meeting as CallRecording).start_time,
+              "readable",
             )}
-            isPreviousMeeting={type === "ended"}
+            callType={type}
             link={
               type === "recordings"
                 ? (meeting as CallRecording).url
@@ -128,11 +112,35 @@ export default function CallList({ type }: CallListProps) {
             }
             ButtonIcon1={type === "recordings" ? Play : undefined}
             buttonText={type === "recordings" ? "Play" : "Start"}
-            handleClick={
+            handleClick={() => {
+              if (isNavigating) return;
+
+              setIsNavigating(true);
+
+              if (type === "recordings") {
+                router.push(`${(meeting as CallRecording).url}`);
+              } else {
+                router.push(`/meeting/${(meeting as Call).id}`);
+              }
+            }}
+            call_id={type === "recordings" ? "" : (meeting as Call).id}
+            startsAt={
               type === "recordings"
-                ? () => router.push(`${(meeting as CallRecording).url}`)
-                : () => router.push(`/meeting/${(meeting as Call).id}`)
+                ? ""
+                : formatDate((meeting as Call).state?.startsAt, "iso")
             }
+            description={
+              type === "recordings"
+                ? ""
+                : (meeting as Call).state?.custom?.description
+            }
+            session_id={
+              type === "recordings" ? (meeting as CallRecording).session_id : ""
+            }
+            filename={
+              type === "recordings" ? (meeting as CallRecording).filename : ""
+            }
+            refetch={refetch}
           />
         ))
       ) : (

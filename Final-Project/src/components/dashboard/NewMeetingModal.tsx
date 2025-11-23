@@ -3,6 +3,7 @@
 import { useUser } from "@clerk/nextjs";
 import { useStreamVideoClient } from "@stream-io/video-react-sdk";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { toast } from "react-toastify";
 import Loader from "@/components/shared/Loader";
 import ReactPortal from "@/components/shared/ReactPortal";
@@ -16,6 +17,7 @@ export default function NewMeetingModal({
   isOpen,
   handleClose,
 }: NewMeetingModal) {
+  const [isCreating, setIsCreating] = useState(false);
   const { user } = useUser();
   const client = useStreamVideoClient();
   const router = useRouter();
@@ -23,10 +25,16 @@ export default function NewMeetingModal({
   if (!isOpen) return null;
 
   const createInstantMeeting = async () => {
+    if (isCreating) return;
+
+    setIsCreating(true);
+
     if (!client || !user) {
       toast.error("User or client not available");
+      setIsCreating(false);
       return;
     }
+
     try {
       const id = crypto.randomUUID();
       const call = client.call("default", id);
@@ -44,6 +52,7 @@ export default function NewMeetingModal({
       toast.success("Meeting Created");
     } catch {
       toast.error("Failed to create Meeting");
+      setIsCreating(false);
     }
   };
 
@@ -68,12 +77,16 @@ export default function NewMeetingModal({
             </h1>
             <button
               type="button"
-              className={
-                "bg-blue-500 focus-visible:ring-0 focus-visible:ring-offset-0 text-white rounded-md p-2 cursor-pointer hover:bg-blue-700"
-              }
-              onClick={() => createInstantMeeting()}
+              disabled={isCreating}
+              className={`rounded-md p-2 text-white
+                ${
+                  isCreating
+                    ? "bg-gray-400"
+                    : "bg-blue-500 hover:bg-blue-700 cursor-pointer"
+                }`}
+              onClick={createInstantMeeting}
             >
-              &nbsp; Start Meeting
+              {isCreating ? "Creating..." : "Start Meeting"}
             </button>
           </div>
         </div>

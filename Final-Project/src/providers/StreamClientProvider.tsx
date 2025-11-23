@@ -27,6 +27,7 @@ export default function StreamVideoProvider({
         name: user?.username || user?.id,
         image: user?.imageUrl,
       },
+
       tokenProvider,
     });
 

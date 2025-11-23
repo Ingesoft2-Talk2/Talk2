@@ -8,6 +8,7 @@ import {
 } from "@stream-io/video-react-sdk";
 import { CalendarClock, PhoneOff } from "lucide-react";
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 import ReturnToMenuDisplay from "@/components/shared/ReturnToMenuDisplay";
 import Navbar from "../shared/Navbar";
 
@@ -22,6 +23,7 @@ export default function MeetingSetup({
   const callTimeNotArrived =
     callStartsAt && new Date(callStartsAt) > new Date();
   const callHasEnded = !!callEndedAt;
+  const [isJoining, setIsJoining] = useState(false);
 
   const call = useCall();
 
@@ -59,6 +61,21 @@ export default function MeetingSetup({
       />
     );
 
+  const handleJoin = () => {
+    if (isJoining) return;
+
+    setIsJoining(true);
+
+    try {
+      call.join();
+      setIsSetupComplete(true);
+      setIsJoining(false);
+    } catch {
+      toast.error("Failed to schedule meeting");
+      setIsJoining(false);
+    }
+  };
+
   return (
     <div>
       <Navbar showHamburgerMenu={false} />
@@ -82,13 +99,16 @@ export default function MeetingSetup({
         </div>
         <button
           type="button"
-          className=" text-center py-3 bg-blue-500 focus-visible:ring-0 focus-visible:ring-offset-0 text-white rounded-md p-2 cursor-pointer hover:bg-blue-700 border-none"
-          onClick={() => {
-            call.join();
-            setIsSetupComplete(true);
-          }}
+          disabled={isJoining}
+          className={`text-center py-3 text-white rounded-md p-2 
+                ${
+                  isJoining
+                    ? "bg-gray-400"
+                    : "bg-blue-500 hover:bg-blue-700 cursor-pointer"
+                }`}
+          onClick={handleJoin}
         >
-          Join meeting
+          {isJoining ? "Joining..." : "Join meeting"}
         </button>
       </div>
     </div>
