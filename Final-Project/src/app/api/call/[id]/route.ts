@@ -9,7 +9,7 @@ const streamBaseUrl = process.env.NEXT_PUBLIC_STREAM_BASE_URL;
 //It's a delete request, but the API treats the delete as a POST.
 export async function POST(
   _req: Request,
-  { params }: { params: { id: string } },
+  { params }: { params: Promise<{ id: string }> },
 ) {
   try {
     const { id } = await params;
@@ -66,7 +66,7 @@ type UpdateCallPayload = {
 
 export async function PATCH(
   req: Request,
-  { params }: { params: { id: string } },
+  { params }: { params: Promise<{ id: string }> },
 ) {
   try {
     const { id } = await params;
