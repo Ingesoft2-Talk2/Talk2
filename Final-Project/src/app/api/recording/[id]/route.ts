@@ -8,10 +8,10 @@ const streamBaseUrl = process.env.NEXT_PUBLIC_STREAM_BASE_URL;
 
 export async function DELETE(
   req: Request,
-  { params }: { params: { id: string } },
+  { params }: { params: Promise<{ id: string }> },
 ) {
   try {
-    const { id } = params;
+    const { id } = await params;
 
     const { searchParams } = new URL(req.url);
     const session_id = searchParams.get("session_id");
