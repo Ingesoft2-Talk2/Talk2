@@ -5,7 +5,7 @@ services:
     build:
       context: .
       args:
-        PRISMA_DATABASE_URL: "postgres://e46becbb651d65c974d9d880d98264d8f6814b3d1ef3ad150f411e0698cd74df:sk_X8aV9xoETf-ucsWkdiWyt@db.prisma.io:5432/postgres?sslmode=require"
+        NEXT_PUBLIC_STREAM_BASE_URL: "http://localhost:3000"
         NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: "pk_test_d2FybS1yYXR0bGVyLTU1LmNsZXJrLmFjY291bnRzLmRldiQ"
         NEXT_PUBLIC_STREAM_API_KEY: "xs4acedg9xue"
     container_name: talk2_web
