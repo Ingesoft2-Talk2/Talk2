@@ -46,4 +46,10 @@ next-env.d.ts
 # personal to-do
 to-do.txt
 
+#cypress env variables
+cypress.env.json
+
+#cypress screenshots
+/cypress/screenshots
+
 

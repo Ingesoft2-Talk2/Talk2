@@ -115,6 +115,7 @@ export default function EditCallModal({
               </label>
               <textarea
                 id="meeting-description"
+                data-testid="edit-description"
                 value={newDescription}
                 onChange={(e) => setNewDescription(e.target.value)}
                 className="border-none bg-dark-3 focus-visible:ring-0 focus-visible:ring-offset-0 bg-gray-200 rounded-md p-2 max-h-40 resize-y min-h-24 focus:outline-none"
@@ -129,6 +130,7 @@ export default function EditCallModal({
               </label>
               <input
                 id="meeting-datetime"
+                data-testid="edit-datetime"
                 type="datetime-local"
                 value={dateTime}
                 onChange={(e) => setDateTime(e.target.value)}
@@ -137,6 +139,7 @@ export default function EditCallModal({
             </div>
             <button
               type="button"
+              data-testid="confirm-edit-btn"
               disabled={isUpdating}
               className={`rounded-md p-2 text-white
                         ${

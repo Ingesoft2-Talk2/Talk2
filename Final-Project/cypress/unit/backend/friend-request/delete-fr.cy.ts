@@ -3,6 +3,13 @@ describe("FriendRequest - DELETE", () => {
 
   beforeEach(() => {
     cy.resetDB();
+    cy.visit("/");
+
+    cy.clerkSignIn({
+      strategy: "password",
+      identifier: Cypress.env("CLERK_IDENTIFIER"),
+      password: Cypress.env("CLERK_PASSWORD"),
+    });
   });
 
   it("should delete an existing request", () => {

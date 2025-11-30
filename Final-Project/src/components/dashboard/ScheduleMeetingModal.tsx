@@ -96,6 +96,7 @@ export default function ScheduleMeetingModal({
               </label>
               <textarea
                 id="meeting-description"
+                data-testid="schedule-description"
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
                 className="border-none bg-dark-3 focus-visible:ring-0 focus-visible:ring-offset-0 bg-gray-200 rounded-md p-2 max-h-40 resize-y min-h-24 focus:outline-none"
@@ -110,6 +111,7 @@ export default function ScheduleMeetingModal({
               </label>
               <input
                 id="meeting-datetime"
+                data-testid="schedule-datetime"
                 type="datetime-local"
                 value={dateTime}
                 onChange={(e) => setDateTime(e.target.value)}
@@ -118,12 +120,12 @@ export default function ScheduleMeetingModal({
             </div>
             <button
               type="button"
+              data-testid="schedule-submit-btn"
               disabled={isCreating}
               className={`rounded-md p-2 text-white
-                ${
-                  isCreating
-                    ? "bg-gray-400"
-                    : "bg-blue-500 hover:bg-blue-700 cursor-pointer"
+                ${isCreating
+                  ? "bg-gray-400"
+                  : "bg-blue-500 hover:bg-blue-700 cursor-pointer"
                 }`}
               onClick={createScheduledMeeting}
             >

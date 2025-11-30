@@ -1,5 +1,6 @@
 import { defineConfig } from "cypress";
 import { resetDB } from "./cypress/utils/reset-db";
+import { clerkSetup } from "@clerk/testing/cypress";
 
 export default defineConfig({
   component: {
@@ -10,14 +11,22 @@ export default defineConfig({
   },
 
   e2e: {
+    specPattern: [
+      "cypress/integration/**/*.cy.{js,jsx,ts,tsx}",
+      "cypress/unit/backend/**/*.cy.{js,jsx,ts,tsx}",
+      "cypress/unit/frontend/**/*.cy.{js,jsx,ts,tsx}",
+    ],
+
     baseUrl: "http://localhost:3000",
-    setupNodeEvents(on) {
+
+    setupNodeEvents(on, config) {
       on("task", {
         resetDB: async () => {
           await resetDB();
           return null;
         },
       });
+      return clerkSetup({ config });
     },
   },
 });

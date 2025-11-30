@@ -46,6 +46,7 @@ export default function CardOptionsMenu({
     <div ref={menuRef} className="relative inline-block text-left z-10">
       <button
         type="button"
+        data-testid="options-menu-btn"
         onClick={() => setIsOpen(!isOpen)}
         className="rounded-full p-1 text-gray-700 hover:bg-gray-200 focus:outline-none focus:ring-blue-500 focus:ring-offset-2 cursor-pointer"
         aria-expanded={isOpen}
@@ -64,6 +65,7 @@ export default function CardOptionsMenu({
             {callType === "upcoming" && (
               <button
                 type="button"
+                data-testid="edit-meeting-btn"
                 onClick={() => {
                   setEditCallModalOpen(true);
                   setIsOpen(false);
@@ -77,6 +79,7 @@ export default function CardOptionsMenu({
 
             <button
               type="button"
+              data-testid="delete-meeting-btn"
               onClick={() => {
                 setDeleteCallModalOpen(true);
                 setIsOpen(false);
