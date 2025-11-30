@@ -4,7 +4,7 @@ import { Menu } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
-import { sidebarLinks } from "@/lib/staticLinks";
+import { sidebarLinks } from "@/utils/staticLinks";
 
 export default function HamburgerMenu() {
   const [isOpen, setIsOpen] = useState(false);

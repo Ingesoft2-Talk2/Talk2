@@ -3,6 +3,7 @@
 import { useUser } from "@clerk/nextjs";
 import { useStreamVideoClient } from "@stream-io/video-react-sdk";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { toast } from "react-toastify";
 import { useGetCallById } from "@/hooks/useGetCallById";
 
@@ -28,6 +29,8 @@ export default function PersonalRoom() {
   const { user } = useUser();
   const client = useStreamVideoClient();
 
+  const [isStarting, setIsStarting] = useState(false);
+
   const meetingId = user?.id;
 
   const { call } = useGetCallById(meetingId ?? "");
@@ -44,19 +47,31 @@ export default function PersonalRoom() {
   };
 
   const startRoom = async () => {
-    if (!client || !user) return;
+    if (isStarting) return;
+
+    setIsStarting(true);
+
+    if (!client || !user) {
+      setIsStarting(false);
+      return;
+    }
 
     const newCall = client.call("default", meetingId ?? "");
 
-    if (!call) {
-      await newCall.getOrCreate({
-        data: {
-          starts_at: new Date().toISOString(),
-        },
-      });
-    }
+    try {
+      if (!call) {
+        await newCall.getOrCreate({
+          data: {
+            starts_at: new Date().toISOString(),
+          },
+        });
+      }
 
-    router.push(`/meeting/${meetingId}?personal=true`);
+      router.push(`/meeting/${meetingId}?personal=true`);
+    } catch {
+      toast.error("Unable to start meeting");
+      setIsStarting(false);
+    }
   };
 
   const meetingLink = `${process.env.NEXT_PUBLIC_BASE_URL}/meeting/${meetingId}?personal=true`;
@@ -72,13 +87,19 @@ export default function PersonalRoom() {
       <div className="flex gap-5">
         <button
           type="button"
-          className={
-            "bg-blue-500 focus-visible:ring-0 focus-visible:ring-offset-0 text-white rounded-md p-2 cursor-pointer hover:bg-blue-700 flex items-center justify-center gap-3"
-          }
+          disabled={isStarting}
+          className={`rounded-md p-2 flex items-center justify-center gap-3 text-white
+            ${
+              isStarting
+                ? "bg-gray-400"
+                : "bg-blue-500 hover:bg-blue-700 cursor-pointer"
+            }
+          `}
           onClick={startRoom}
         >
-          Start Meeting
+          {isStarting ? "Starting..." : "Start Meeting"}
         </button>
+
         <button
           type="button"
           className={

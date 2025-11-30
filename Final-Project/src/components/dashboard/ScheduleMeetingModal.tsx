@@ -22,28 +22,36 @@ export default function ScheduleMeetingModal({
   const client = useStreamVideoClient();
   const [description, setDescription] = useState("");
   const [dateTime, setDateTime] = useState("");
+  const [isCreating, setIsCreating] = useState(false);
 
   if (!isOpen) return null;
 
   const createScheduledMeeting = async () => {
+    if (isCreating) return;
+
+    setIsCreating(true);
+
     if (!client || !user) {
       toast.error("User or client not available");
+      setIsCreating(false);
       return;
     }
+
     try {
       if (!description) {
         toast.error("Please create a description");
+        setIsCreating(false);
         return;
       }
       if (!dateTime) {
         toast.error("Please select a date and time");
+        setIsCreating(false);
         return;
       }
       const id = crypto.randomUUID();
       const call = client.call("default", id);
 
       if (!call) throw new Error("Failed to schedule meeting");
-      console.log(dateTime);
 
       await call.getOrCreate({
         data: {
@@ -54,8 +62,10 @@ export default function ScheduleMeetingModal({
 
       onSuccess(call.id);
       toast.success("Meeting Scheduled");
+      setIsCreating(false);
     } catch {
       toast.error("Failed to schedule meeting");
+      setIsCreating(false);
     }
   };
 
@@ -86,6 +96,7 @@ export default function ScheduleMeetingModal({
               </label>
               <textarea
                 id="meeting-description"
+                data-testid="schedule-description"
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
                 className="border-none bg-dark-3 focus-visible:ring-0 focus-visible:ring-offset-0 bg-gray-200 rounded-md p-2 max-h-40 resize-y min-h-24 focus:outline-none"
@@ -100,21 +111,25 @@ export default function ScheduleMeetingModal({
               </label>
               <input
                 id="meeting-datetime"
+                data-testid="schedule-datetime"
                 type="datetime-local"
                 value={dateTime}
                 onChange={(e) => setDateTime(e.target.value)}
                 className="w-full rounded bg-dark-3 p-2 focus:outline-none bg-gray-200"
               />
             </div>
-
             <button
               type="button"
-              className={
-                "bg-blue-500 focus-visible:ring-0 focus-visible:ring-offset-0 text-white rounded-md p-2 cursor-pointer hover:bg-blue-700"
-              }
-              onClick={() => createScheduledMeeting()}
+              data-testid="schedule-submit-btn"
+              disabled={isCreating}
+              className={`rounded-md p-2 text-white
+                ${isCreating
+                  ? "bg-gray-400"
+                  : "bg-blue-500 hover:bg-blue-700 cursor-pointer"
+                }`}
+              onClick={createScheduledMeeting}
             >
-              &nbsp; Schedule Meeting
+              {isCreating ? "Creating..." : "Schedule Meeting"}
             </button>
           </div>
         </div>
