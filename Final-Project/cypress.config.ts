@@ -28,10 +28,11 @@ export default defineConfig({
       });
       if (process.env.CI === "true") {
         console.log("🔧 Ejecutando en CI - Clerk Testing DESACTIVADO");
-        return config; // <-- clave
+        return config;
       }
 
-
+      
+      const { clerkSetup } = require("@clerk/testing/cypress");
       return clerkSetup({ config });
     },
   },
