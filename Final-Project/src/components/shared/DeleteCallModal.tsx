@@ -73,7 +73,7 @@ export default function DeleteCallModal({
         );
       } else {
         response = await fetch(`/api/call/${actualCallId}`, {
-          method: "POST",
+          method: "DELETE",
           headers: {
             "Content-Type": "application/json",
           },
@@ -122,6 +122,7 @@ export default function DeleteCallModal({
 
             <button
               type="button"
+              data-testid="confirm-delete-btn"
               disabled={isDeleting}
               className={`px-4 py-2 rounded-md text-white cursor-pointer
                 ${isDeleting ? "bg-red-300" : "bg-red-600 hover:bg-red-700"}`}

@@ -3,9 +3,18 @@ describe("FriendRequest - CREATE", () => {
 
   beforeEach(() => {
     cy.resetDB();
+    cy.visit("/");
+
+    cy.clerkSignIn({
+      strategy: "password",
+      identifier: Cypress.env("CLERK_IDENTIFIER"),
+      password: Cypress.env("CLERK_PASSWORD"),
+    });
   });
 
   it("should create a new friend request", () => {
+    cy.visit("/friends");
+
     cy.fixture("users").then(({ userA, userB }) => {
       cy.request({
         method: "POST",

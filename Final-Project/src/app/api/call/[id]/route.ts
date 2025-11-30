@@ -6,8 +6,141 @@ import { tokenProvider } from "@/../actions/stream.actions";
 const apiKey = process.env.NEXT_PUBLIC_STREAM_API_KEY;
 const streamBaseUrl = process.env.NEXT_PUBLIC_STREAM_BASE_URL;
 
-//It's a delete request, but the API treats the delete as a POST.
+export async function GET(
+  _req: Request,
+  { params }: { params: Promise<{ id: string }> },
+) {
+  try {
+    const { id } = await params;
+    const callType = "default";
+
+    if (!id) {
+      return NextResponse.json({ message: "Missing callId" }, { status: 400 });
+    }
+
+    if (!apiKey) {
+      return NextResponse.json({ message: "Missing apiKey" }, { status: 400 });
+    }
+
+    const url = `${streamBaseUrl}/video/call/${callType}/${id}?api_key=${apiKey}`;
+
+    const token = await tokenProvider();
+
+    const response = await fetch(url, {
+      method: "GET",
+      headers: {
+        "Stream-Auth-Type": "jwt",
+        Authorization: token,
+      },
+    });
+
+    if (response.status === 404) {
+      return NextResponse.json(
+        { message: "The call does not exist." },
+        { status: 404 },
+      );
+    }
+
+    if (response.status === 200) {
+      return NextResponse.json(
+        { message: "Get call successfully" },
+        { status: 200 },
+      );
+    }
+
+    const errorData = await response.text();
+    throw new Error(
+      `Stream API failed with status ${response.status}: ${errorData}`,
+    );
+  } catch (error) {
+    return NextResponse.json(
+      {
+        message: "Failed to get  call",
+        error: (error as Error).message,
+      },
+      { status: 500 },
+    );
+  }
+}
+
 export async function POST(
+  req: Request,
+  { params }: { params: Promise<{ id: string }> },
+) {
+  try {
+    const { id } = await params;
+    const callType = "default";
+
+    const body = await req.json();
+    const {
+      data: {
+        custom: { description },
+        starts_at: startsAt,
+      },
+    } = body;
+
+    if (!id) {
+      return NextResponse.json({ message: "Missing callId" }, { status: 400 });
+    }
+
+    if (!apiKey) {
+      return NextResponse.json({ message: "Missing apiKey" }, { status: 400 });
+    }
+
+    if (!description && !startsAt) {
+      return NextResponse.json(
+        { message: "Missing information" },
+        { status: 400 },
+      );
+    }
+
+    const payload: UpdateCallPayload = {};
+
+    if (description) {
+      payload.custom = { description };
+    }
+
+    if (startsAt) {
+      payload.starts_at = startsAt;
+    }
+
+    const url = `${streamBaseUrl}/video/call/${callType}/${id}?api_key=${apiKey}`;
+
+    const token = await tokenProvider();
+
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Stream-Auth-Type": "jwt",
+        Authorization: token,
+      },
+      body: JSON.stringify(payload),
+    });
+
+    if (response.status === 200 || response.status === 201) {
+      return NextResponse.json(
+        { message: "Call updated successfully" },
+        { status: 200 },
+      );
+    }
+
+    const errorData = await response.text();
+    throw new Error(
+      `Stream API failed with status ${response.status}: ${errorData}`,
+    );
+  } catch (error) {
+    return NextResponse.json(
+      {
+        message: "Failed to update call",
+        error: (error as Error).message,
+      },
+      { status: 500 },
+    );
+  }
+}
+
+export async function DELETE(
   _req: Request,
   { params }: { params: Promise<{ id: string }> },
 ) {
@@ -34,6 +167,13 @@ export async function POST(
         Authorization: token,
       },
     });
+
+    if (response.status === 404) {
+      return NextResponse.json(
+        { message: "The call does not exist." },
+        { status: 404 },
+      );
+    }
 
     if (response.status === 201) {
       return NextResponse.json(
@@ -110,6 +250,13 @@ export async function PATCH(
       },
       body: JSON.stringify(payload),
     });
+
+    if (response.status === 404) {
+      return NextResponse.json(
+        { message: "The call does not exist." },
+        { status: 404 },
+      );
+    }
 
     if (response.status === 200 || response.status === 201) {
       return NextResponse.json(

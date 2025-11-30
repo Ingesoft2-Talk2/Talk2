@@ -23,7 +23,9 @@ export async function GET(req: Request) {
     const responseFR = await fetch(requestUrlFR, {
       method: "GET",
       headers: {
-        "Content-Type": "application/json",
+        cookie: req.headers.get("cookie") ?? "",
+        "x-forwarded-for": req.headers.get("x-forwarded-for") ?? "",
+        "user-agent": req.headers.get("user-agent") ?? "",
       },
     });
 
@@ -49,6 +51,11 @@ export async function GET(req: Request) {
 
     const responseClerk = await fetch(requestUrlClerk, {
       method: "POST",
+      headers: {
+        cookie: req.headers.get("cookie") ?? "",
+        "x-forwarded-for": req.headers.get("x-forwarded-for") ?? "",
+        "user-agent": req.headers.get("user-agent") ?? "",
+      },
       body: JSON.stringify({ ids: friendIds }),
     });
 
