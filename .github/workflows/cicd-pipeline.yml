@@ -12,25 +12,37 @@ jobs:
   # -------------------------
   test:
     runs-on: ubuntu-latest
+    
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      # 🚨 PASO 1: SOLO configurar la versión de Node (SIN CACHÉ)
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '18'
-          cache: 'npm'
-          cache-dependency-path: package-lock.json
+          # ¡QUITAMOS el parámetro 'cache' que estaba dando problemas!
 
+      # 🚨 PASO 2: USAR LA ACCIÓN DEDICADA DE CACHÉ
+      # Intentar restaurar node_modules si el hash de package-lock.json no ha cambiado
+      - name: Restore npm Cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.npm # Ruta donde npm guarda la caché
+          key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      # 🚨 PASO 3: Instalar dependencias
+      # 'npm ci' es el comando más rápido y usará la caché si fue restaurada
       - name: Install dependencies
         run: npm ci
 
       - name: Generate Prisma Client
         run: npx prisma generate
 
-      - name: Run tests
-        # Ajusta la ruta si es necesario
+      - name: Run Unit Tests
         run: npm test -- src/lib/actions/friendship.actions.spec.ts
 
   # -------------------------
