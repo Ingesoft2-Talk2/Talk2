@@ -26,6 +26,12 @@ export default defineConfig({
           return null;
         },
       });
+      if (process.env.CI === "true") {
+        console.log("🔧 Ejecutando en CI - Clerk Testing DESACTIVADO");
+        return config; // <-- clave
+      }
+
+
       return clerkSetup({ config });
     },
   },
