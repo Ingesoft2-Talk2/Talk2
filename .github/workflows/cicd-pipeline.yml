@@ -13,22 +13,24 @@ defaults:
 jobs:
   test:
     runs-on: ubuntu-latest
-    
+      
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-
+  
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '18'
-
+  
       - name: Install dependencies
         run: npm install
-
+  
       - name: Generate Prisma Client
+        env:
+          PRISMA_DATABASE_URL: postgresql://dummy:dummy@localhost:5432/dummy
         run: npx prisma generate
-
+  
       - name: Run Cypress Tests
         uses: cypress-io/github-action@v6
         with:
@@ -38,6 +40,7 @@ jobs:
           CLERK_SECRET_KEY: "dummy"
           NEXT_PUBLIC_STREAM_API_KEY: "dummy"
           STREAM_SECRET_KEY: "dummy"
+          PRISMA_DATABASE_URL: postgresql://dummy:dummy@localhost:5432/dummy
 
   build-and-push:
     needs: test
