@@ -35,6 +35,7 @@ jobs:
         uses: cypress-io/github-action@v6
         with:
           browser: chrome
+          working-directory: Final-Project
         env:
           NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: "dummy"
           CLERK_SECRET_KEY: "dummy"
