@@ -34,7 +34,7 @@ jobs:
       - name: Run Cypress Tests
         run: |
           # Forzamos CI=true para que cypress.config.ts desactive Clerk Testing
-          CI=true npx cypress run --browser chrome --config-file Final-Project/cypress.config.ts
+          CI=true npx cypress run --browser chrome 
         env:
           NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: "dummy"
           CLERK_SECRET_KEY: "dummy"
