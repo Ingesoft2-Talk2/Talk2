@@ -30,5 +30,3 @@ jobs:
         env:
           PRISMA_DATABASE_URL: ${{ secrets.DATABASE_URL }}
         run: npx prisma generate
-
-      
