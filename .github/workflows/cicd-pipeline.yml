@@ -34,7 +34,7 @@ jobs:
       
     
       - name: Run Cypress Tests |
-        run: CI=true npx cypress run --component --browser chrome --spec "cypress/unit/frontend/dashboard/dashboard.cy.ts
+        run: CI=true npx cypress run --component --browser chrome --spec "cypress/unit/frontend/dashboard/dashboard.cy.ts"
 
 
         env:
