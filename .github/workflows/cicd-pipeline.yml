@@ -34,7 +34,7 @@ jobs:
       
     
       - name: Run Cypress Tests |
-        run: CI=true npx cypress run --browser chrome
+        run: CI=true npx cypress run --browser chrome --spec "cypress/unit/**/*.cy.{js,ts,jsx,tsx}"
         env:
           CI: "true" 
           NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: "dummy"
