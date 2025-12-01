@@ -27,7 +27,3 @@ jobs:
       - name: Install dependencies
         run: npm install
   
-      - name: Generate Prisma Client
-        env:
-          PRISMA_DATABASE_URL: ${{ secrets.DATABASE_URL }}
-        run: npx prisma generate
