@@ -112,7 +112,7 @@ A web-based video conferencing platform that enables users to create, join, and 
 ## **Deployment on Docker**
 
 This project is fully containerized using Docker and Docker Compose. It consists of two main services:
-* **Web:** A Next.js application that includes both the frontend and backend, , integrating **Stream** and **ClearK**.
+* **Web:** A Next.js application that includes both the frontend and backend, , integrating **Stream** and **ClerK**.
 * **DB:** A PostgreSQL database managed through Prisma.
 
 
@@ -312,7 +312,6 @@ The application is configured for deployment on **Vercel**:
 4. Deploy
 
 > **Important:** Ensure your PostgreSQL database is accessible from your deployment environment. Consider using managed PostgreSQL services like:
-> - Vercel Postgres
 > - Supabase
 > - Railway
 > - Neon
