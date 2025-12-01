@@ -34,8 +34,12 @@ jobs:
       
     
       - name: Run Cypress Tests |
-        run: npx start-server-and-test start http://localhost:3000 "CI=true npx cypress run --browser chrome"
+        uses: cypress-io/github-action@v6
+        with:
+          browser: chrome
+          working-directory: Final-Project
         env:
+          CI: "true" 
           NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: "dummy"
           CLERK_SECRET_KEY: "dummy"
           NEXT_PUBLIC_STREAM_API_KEY: "dummy"
