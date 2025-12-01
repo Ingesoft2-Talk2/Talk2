@@ -34,8 +34,7 @@ jobs:
       
     
       - name: Run Cypress Tests |
-        run: CI=true npx cypress run --component --browser chrome --spec "cypress/unit/**/*.{cy.js,cy.jsx,cy.ts,cy.tsx}"
-
+        run: CI=true npx cypress run --component --browser chrome --spec "cypress/unit/frontend/**/*.cy.{js,jsx,ts,tsx}"
 
 
         env:
