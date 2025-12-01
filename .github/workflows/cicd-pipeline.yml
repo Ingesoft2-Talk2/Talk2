@@ -8,8 +8,9 @@ on:
 
 defaults:
   run:
-    working-directory: Final-Project
+    working-directory: Final-project   
 
+    
 jobs:
   test:
     runs-on: ubuntu-latest
