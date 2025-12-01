@@ -37,7 +37,7 @@ jobs:
           browser: chrome
           working-directory: Final-Project
         env:
-          CI: true
+          CI: "true"
           NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: "dummy"
           CLERK_SECRET_KEY: "dummy"
           NEXT_PUBLIC_STREAM_API_KEY: "dummy"
