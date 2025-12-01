@@ -31,7 +31,4 @@ jobs:
           PRISMA_DATABASE_URL: ${{ secrets.DATABASE_URL }}
         run: npx prisma generate
 
-      - name: Run Cypress Tests
-        env:
-          CI: true
-        run: ""
+      
