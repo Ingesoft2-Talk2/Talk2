@@ -71,7 +71,12 @@ export async function GET(req: Request) {
 
     const usersWithStatus = filteredUsers.map((user) => {
       const relation = relations.find(
-        (r) =>
+        (r: {
+          id: string;
+          senderId: string;
+          receiverId: string;
+          status: string;
+        }) =>
           (r.senderId === currentUserId && r.receiverId === user.id) ||
           (r.receiverId === currentUserId && r.senderId === user.id),
       );

@@ -3,9 +3,10 @@
  * It defines settings for both component and E2E testing.
  */
 
+import { clerkSetup } from "@clerk/testing/cypress";
 import { defineConfig } from "cypress";
 import { resetDB } from "./cypress/utils/reset-db";
-import { clerkSetup } from "@clerk/testing/cypress";
+
 
 /**
  * Cypress configuration object.

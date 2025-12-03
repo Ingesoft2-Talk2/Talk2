@@ -41,9 +41,9 @@ export default function Dashboard() {
 
     upcomingMeetingText = isToday
       ? `Upcoming Meeting: ${meetingDate.toLocaleTimeString("en-US", {
-        hour: "2-digit",
-        minute: "2-digit",
-      })}`
+          hour: "2-digit",
+          minute: "2-digit",
+        })}`
       : "No meetings scheduled for today";
   } else {
     upcomingMeetingText = "No meetings scheduled for today";
@@ -65,8 +65,18 @@ export default function Dashboard() {
           </h2>
 
           <div className="flex flex-col gap-2 drop-shadow-md">
-            <h1 data-testid="dashboard-time" className="text-4xl font-extrabold lg:text-7xl">{time}</h1>
-            <p data-testid="dashboard-date" className="text-lg font-medium lg:text-2xl">{date}</p>
+            <h1
+              data-testid="dashboard-time"
+              className="text-4xl font-extrabold lg:text-7xl"
+            >
+              {time}
+            </h1>
+            <p
+              data-testid="dashboard-date"
+              className="text-lg font-medium lg:text-2xl"
+            >
+              {date}
+            </p>
           </div>
         </div>
       </div>

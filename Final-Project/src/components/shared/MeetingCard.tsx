@@ -60,7 +60,8 @@ export default function MeetingCard({
   };
 
   return (
-    <section data-testid="meeting-card"
+    <section
+      data-testid="meeting-card"
       className="flex min-h-[200px] w-full flex-col gap-4 rounded-[14px] px-5 py-5 xl:max-w-[568px] bg-gray-100 text-black shadow-xl border border-gray-400 relative"
     >
       <div className="absolute top-4 right-4 z-20">
