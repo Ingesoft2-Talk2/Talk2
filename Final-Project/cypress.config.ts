@@ -1,6 +1,6 @@
+import { clerkSetup } from "@clerk/testing/cypress";
 import { defineConfig } from "cypress";
 import { resetDB } from "./cypress/utils/reset-db";
-import { clerkSetup } from "@clerk/testing/cypress";
 
 export default defineConfig({
   component: {
@@ -26,13 +26,6 @@ export default defineConfig({
           return null;
         },
       });
-      if (process.env.CI === "true") {
-        console.log("🔧 Ejecutando en CI - Clerk Testing DESACTIVADO");
-        return config;
-      }
-
-      
-      const { clerkSetup } = require("@clerk/testing/cypress");
       return clerkSetup({ config });
     },
   },
