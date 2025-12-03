@@ -1,3 +1,8 @@
+/*
+ * This file defines the HamburgerMenu component.
+ * It provides a mobile-responsive navigation menu that slides in from the left.
+ */
+
 "use client";
 
 import { Menu } from "lucide-react";
@@ -6,6 +11,10 @@ import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { sidebarLinks } from "@/utils/staticLinks";
 
+/**
+ * HamburgerMenu component for mobile navigation.
+ * Manages the open/close state of the mobile menu.
+ */
 export default function HamburgerMenu() {
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();

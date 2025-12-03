@@ -1,9 +1,22 @@
+/*
+ * This file defines the Loader component.
+ * It displays a loading spinner and optional text to indicate an ongoing process.
+ */
+
 import { Loader2 } from "lucide-react";
 
 interface LoaderProps {
+  /**
+   * Optional text to display below the spinner. Defaults to "Loading...".
+   */
   text?: string;
 }
 
+/**
+ * Loader component for displaying loading states.
+ *
+ * @param text - The text to display.
+ */
 export default function Loader({ text = "Loading..." }: LoaderProps) {
   return (
     <div

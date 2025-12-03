@@ -1,6 +1,13 @@
 import { NextResponse } from "next/server";
 import type { ClerkUserAPI } from "@/types/ClerkUser";
 
+/**
+ * GET handler to retrieve a list of friends for a user.
+ * It first fetches friend requests to identify friends, then fetches user details from Clerk.
+ *
+ * @param req - The request object containing query parameters.
+ * @returns A JSON response with the list of friends (Clerk user objects) or an error message.
+ */
 export async function GET(req: Request) {
   try {
     const { searchParams } = new URL(req.url);

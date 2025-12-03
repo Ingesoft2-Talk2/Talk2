@@ -1,9 +1,18 @@
+/*
+ * This file defines the Sidebar component.
+ * It renders the side navigation menu with links to different sections of the application.
+ */
+
 "use client";
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { sidebarLinks } from "@/utils/staticLinks";
 
+/**
+ * Sidebar component for desktop navigation.
+ * Displays a sticky sidebar with navigation links and active state highlighting.
+ */
 export default function Sidebar() {
   const pathname = usePathname();
 

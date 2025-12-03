@@ -7,6 +7,14 @@ import NewMeeting from "@/components/dashboard/NewMeeting";
 import ScheduleMeeting from "@/components/dashboard/ScheduleMeeting";
 import { useGetCalls } from "@/hooks/useGetCalls";
 
+/**
+ * The main dashboard page for authenticated users.
+ * Displays the current time, date, and upcoming meeting information.
+ * Provides quick access to meeting actions like starting, joining, or scheduling a meeting.
+ *
+ * @component
+ * @returns {JSX.Element} The rendered dashboard page.
+ */
 export default function Dashboard() {
   const { nextUpcomingCall, isLoading } = useGetCalls();
   const now = new Date();

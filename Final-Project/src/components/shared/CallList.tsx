@@ -1,3 +1,8 @@
+/*
+ * This file defines the CallList component.
+ * It fetches and displays a list of calls (ended, upcoming, or recordings) using MeetingCard components.
+ */
+
 "use client";
 
 import type { Call, CallRecording } from "@stream-io/video-react-sdk";
@@ -15,9 +20,17 @@ import Loader from "./Loader";
 import MeetingCard from "./MeetingCard";
 
 interface CallListProps {
+  /**
+   * The type of calls to display: "ended", "upcoming", or "recordings".
+   */
   type: "ended" | "upcoming" | "recordings";
 }
 
+/**
+ * Component to display a list of calls based on the specified type.
+ *
+ * @param type - The category of calls to show.
+ */
 export default function CallList({ type }: CallListProps) {
   const router = useRouter();
   const { endedCalls, upcomingCalls, callRecordings, isLoading, refetch } =

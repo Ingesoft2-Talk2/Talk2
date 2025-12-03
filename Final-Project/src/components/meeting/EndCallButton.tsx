@@ -1,3 +1,8 @@
+/*
+ * This file defines the EndCallButton component.
+ * It allows the meeting owner to end the call for everyone.
+ */
+
 "use client";
 
 import { useCall, useCallStateHooks } from "@stream-io/video-react-sdk";
@@ -5,6 +10,10 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "react-toastify";
 
+/**
+ * Button component to end the call for all participants.
+ * Visible only to the meeting owner.
+ */
 export default function EndCallButton() {
   const call = useCall();
   const router = useRouter();

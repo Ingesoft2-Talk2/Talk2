@@ -1,6 +1,17 @@
+/*
+ * This file defines the ReactPortal component.
+ * It creates a portal to render children into a DOM node that exists outside the DOM hierarchy of the parent component.
+ */
+
 import { useLayoutEffect, useState } from "react";
 import { createPortal } from "react-dom";
 
+/**
+ * Helper function to create a wrapper element and append it to the body.
+ *
+ * @param wrapperId - The ID for the wrapper element.
+ * @returns The created HTML element.
+ */
 const createWrapperAndAppendToBody = (wrapperId: string) => {
   if (!document) return null;
   const wrapperElement = document.createElement("div");
@@ -14,6 +25,12 @@ type ReactPortalProps = {
   wrapperId: string;
 };
 
+/**
+ * Component that renders its children into a portal.
+ * Useful for modals, tooltips, and other overlays.
+ *
+ * @param props - The properties for the portal.
+ */
 export default function ReactPortal({ children, wrapperId }: ReactPortalProps) {
   const [wrapperElement, setWrapperElement] = useState<HTMLElement>();
 

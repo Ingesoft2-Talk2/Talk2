@@ -1,3 +1,6 @@
+/**
+ * Represents a user object returned by the Clerk API.
+ */
 export interface ClerkUserAPI {
   id: string;
   first_name: string | null;

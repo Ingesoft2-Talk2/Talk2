@@ -1,3 +1,15 @@
+/*
+ * This file contains utility functions for date formatting.
+ * It provides methods to convert dates into ISO strings or readable formats.
+ */
+
+/**
+ * Formats a given date input into a specified string format.
+ *
+ * @param input - The date to format, can be a Date object, string, or undefined.
+ * @param format - The desired output format, either "iso" or "readable". Defaults to "readable".
+ * @returns The formatted date string, or an empty string if input is undefined.
+ */
 export function formatDate(
   input: Date | string | undefined,
   format: "iso" | "readable" = "readable",

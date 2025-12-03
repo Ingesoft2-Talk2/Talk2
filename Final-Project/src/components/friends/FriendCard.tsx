@@ -1,3 +1,8 @@
+/*
+ * This file defines the FriendCard component.
+ * It displays a friend's information, including their profile picture and name.
+ */
+
 "use client";
 
 import { UserIcon } from "lucide-react";
@@ -12,6 +17,11 @@ interface FriendCardProps {
   refetch: () => void;
 }
 
+/**
+ * Component to display a single friend or friend request.
+ *
+ * @param props - The properties for the friend card.
+ */
 export default function FriendCard({
   name,
   imageUrl,

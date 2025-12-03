@@ -7,6 +7,12 @@ import type { SimpleUser } from "@/types/SimpleUser";
 const apiKey = process.env.CLERK_SECRET_KEY;
 const clerkBaseUrl = process.env.NEXT_PUBLIC_CLERK_BASE_URL;
 
+/**
+ * POST handler to fetch multiple users from Clerk by their IDs.
+ *
+ * @param req - The request object containing the list of user IDs.
+ * @returns A JSON response with the list of simplified user objects or an error message.
+ */
 export async function POST(req: Request) {
   try {
     const body = await req.json();

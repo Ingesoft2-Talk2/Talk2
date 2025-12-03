@@ -1,11 +1,29 @@
+/*
+ * This file contains server actions related to Stream.io integration.
+ * It handles token generation for authenticated users.
+ */
+
 "use server";
 
 import { currentUser } from "@clerk/nextjs/server";
 import { StreamClient } from "@stream-io/node-sdk";
 
+/**
+ * API key for Stream.io, retrieved from environment variables.
+ */
 const STREAM_API_KEY = process.env.NEXT_PUBLIC_STREAM_API_KEY;
+
+/**
+ * API secret for Stream.io, retrieved from environment variables.
+ */
 const STREAM_API_SECRET = process.env.STREAM_SECRET_KEY;
 
+/**
+ * Generates a Stream.io token for the current authenticated user.
+ *
+ * @returns A promise that resolves to the generated token string.
+ * @throws Error if the user is not authenticated or if API keys are missing.
+ */
 export const tokenProvider = async () => {
   const user = await currentUser();
 

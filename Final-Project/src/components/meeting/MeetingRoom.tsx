@@ -1,3 +1,8 @@
+/*
+ * This file defines the MeetingRoom component.
+ * It renders the main video conferencing interface, including participant list, controls, and speaker layout.
+ */
+
 "use client";
 
 import {
@@ -14,6 +19,10 @@ import { useState } from "react";
 import Loader from "@/components/shared/Loader";
 import EndCallButton from "./EndCallButton";
 
+/**
+ * Component representing the active meeting room.
+ * Manages the display of participants, call controls, and video layout.
+ */
 export default function MeetingRoom() {
   const searchParams = useSearchParams();
   const isPersonalRoom = !!searchParams.get("personal");
