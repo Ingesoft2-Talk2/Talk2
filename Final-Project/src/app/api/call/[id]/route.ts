@@ -6,6 +6,13 @@ import { tokenProvider } from "@/../actions/stream.actions";
 const apiKey = process.env.NEXT_PUBLIC_STREAM_API_KEY;
 const streamBaseUrl = process.env.NEXT_PUBLIC_STREAM_BASE_URL;
 
+/**
+ * GET handler to retrieve a specific call by ID.
+ *
+ * @param _req - The request object (unused).
+ * @param params - The route parameters containing the call ID.
+ * @returns A JSON response with the call details or an error message.
+ */
 export async function GET(
   _req: Request,
   { params }: { params: Promise<{ id: string }> },
@@ -63,6 +70,13 @@ export async function GET(
   }
 }
 
+/**
+ * POST handler to update a call's details (description, start time).
+ *
+ * @param req - The request object containing the update payload.
+ * @param params - The route parameters containing the call ID.
+ * @returns A JSON response indicating success or failure.
+ */
 export async function POST(
   req: Request,
   { params }: { params: Promise<{ id: string }> },
@@ -140,6 +154,13 @@ export async function POST(
   }
 }
 
+/**
+ * DELETE handler to remove a call.
+ *
+ * @param _req - The request object (unused).
+ * @param params - The route parameters containing the call ID.
+ * @returns A JSON response indicating success or failure.
+ */
 export async function DELETE(
   _req: Request,
   { params }: { params: Promise<{ id: string }> },
@@ -204,6 +225,13 @@ type UpdateCallPayload = {
   starts_at?: string;
 };
 
+/**
+ * PATCH handler to update a call's details (alternative to POST).
+ *
+ * @param req - The request object containing the update payload.
+ * @param params - The route parameters containing the call ID.
+ * @returns A JSON response indicating success or failure.
+ */
 export async function PATCH(
   req: Request,
   { params }: { params: Promise<{ id: string }> },

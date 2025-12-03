@@ -1,3 +1,8 @@
+/*
+ * This file defines the ScheduleMeeting component.
+ * It renders a dashboard card that opens a modal to schedule a future meeting.
+ */
+
 "use client";
 
 import { CalendarPlus } from "lucide-react";
@@ -6,6 +11,10 @@ import DashboardCard from "./DashboardCard";
 import ScheduleMeetingModal from "./ScheduleMeetingModal";
 import ScheduleMeetingSuccessModal from "./ScheduleMeetingSuccessModal";
 
+/**
+ * Component for the "Schedule Meeting" action on the dashboard.
+ * Manages the state of the schedule meeting modal and the success modal.
+ */
 export default function ScheduleMeeting() {
   const [scheduleMeetingModalOpen, setScheduleMeetingModalOpen] =
     useState(false);

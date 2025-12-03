@@ -1,9 +1,18 @@
+/*
+ * This file defines the N8nChatWidget component.
+ * It integrates an n8n chat widget into the application.
+ */
+
 "use client";
 
 import { createChat } from "@n8n/chat";
 import { useEffect } from "react";
 import "@n8n/chat/style.css";
 
+/**
+ * Component that initializes and renders the n8n chat widget.
+ * Configures the webhook URL and initial messages for the chat.
+ */
 export default function N8nChatWidget() {
   useEffect(() => {
     createChat({

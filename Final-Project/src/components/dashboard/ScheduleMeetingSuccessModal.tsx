@@ -1,3 +1,8 @@
+/*
+ * This file defines the ScheduleMeetingSuccessModal component.
+ * It displays a success message and the meeting link after a meeting has been scheduled.
+ */
+
 "use client";
 
 import { CalendarCheck2, Copy } from "lucide-react";
@@ -10,6 +15,12 @@ type JoinMeetingModal = {
   handleClose: () => void;
 };
 
+/**
+ * Modal component to confirm successful meeting scheduling.
+ * Provides a button to copy the meeting link.
+ *
+ * @param props - The properties for the success modal.
+ */
 export default function ScheduleMeetingSuccessModal({
   isOpen,
   link,

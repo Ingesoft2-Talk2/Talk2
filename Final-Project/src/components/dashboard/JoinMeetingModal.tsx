@@ -1,3 +1,8 @@
+/*
+ * This file defines the JoinMeetingModal component.
+ * It provides a modal for users to enter a meeting link and join the call.
+ */
+
 "use client";
 
 import { useRouter } from "next/navigation";
@@ -10,6 +15,12 @@ type JoinMeetingModal = {
   handleClose: () => void;
 };
 
+/**
+ * Modal component for joining a meeting via link.
+ * Validates the link and navigates the user to the meeting page.
+ *
+ * @param props - The properties for the join meeting modal.
+ */
 export default function JoinMeetingModal({
   isOpen,
   handleClose,
@@ -72,10 +83,9 @@ export default function JoinMeetingModal({
               type="button"
               disabled={isJoining}
               className={`rounded-md p-2 text-white 
-                ${
-                  isJoining
-                    ? "bg-gray-400"
-                    : "bg-blue-500 hover:bg-blue-700 cursor-pointer"
+                ${isJoining
+                  ? "bg-gray-400"
+                  : "bg-blue-500 hover:bg-blue-700 cursor-pointer"
                 }`}
               onClick={handleJoin}
             >

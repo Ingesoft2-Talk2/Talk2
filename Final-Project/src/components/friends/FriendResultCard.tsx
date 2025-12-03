@@ -1,3 +1,8 @@
+/*
+ * This file defines the FriendResultCard component.
+ * It displays a user found in the search results and allows sending a friend request.
+ */
+
 "use client";
 
 import { Plus, User } from "lucide-react";
@@ -12,6 +17,12 @@ type FriendResultCardProps = {
   refetch: () => void;
 };
 
+/**
+ * Component to display a search result user.
+ * Shows user details and a button to add them as a friend.
+ *
+ * @param props - The properties for the friend result card.
+ */
 export default function FriendResultCard({
   user,
   currentUserId,
@@ -90,9 +101,8 @@ export default function FriendResultCard({
           <button
             type="button"
             disabled={isSending}
-            className={`flex items-center gap-1 bg-blue-500 hover:bg-blue-700 text-white px-3 py-1 rounded-lg transition cursor-pointer ${
-              isSending ? "opacity-60 cursor-not-allowed" : ""
-            }`}
+            className={`flex items-center gap-1 bg-blue-500 hover:bg-blue-700 text-white px-3 py-1 rounded-lg transition cursor-pointer ${isSending ? "opacity-60 cursor-not-allowed" : ""
+              }`}
             onClick={handleAddFriend}
           >
             <Plus className="w-4 h-4" />

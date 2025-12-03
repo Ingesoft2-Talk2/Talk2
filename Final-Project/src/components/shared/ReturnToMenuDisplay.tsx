@@ -1,3 +1,8 @@
+/*
+ * This file defines the ReturnToMenuDisplay component.
+ * It displays a message and a button to navigate back to the dashboard.
+ */
+
 "use client";
 
 import { useRouter } from "next/navigation";
@@ -8,6 +13,12 @@ interface ReturnToMenuDisplayProps {
   Icon?: React.ElementType;
 }
 
+/**
+ * Component to display a return to menu screen.
+ * Useful for post-meeting or error states.
+ *
+ * @param props - The properties for the component.
+ */
 export default function ReturnToMenuDisplay({
   title,
   Icon,
@@ -40,10 +51,9 @@ export default function ReturnToMenuDisplay({
             onClick={handleClick}
             disabled={isNavigating}
             className={`w-full text-center py-3 rounded-md p-2 text-white border-none
-              ${
-                isNavigating
-                  ? "bg-gray-400"
-                  : "bg-blue-500 hover:bg-blue-700 cursor-pointer"
+              ${isNavigating
+                ? "bg-gray-400"
+                : "bg-blue-500 hover:bg-blue-700 cursor-pointer"
               }
             `}
           >

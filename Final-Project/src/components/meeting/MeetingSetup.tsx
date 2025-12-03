@@ -1,3 +1,8 @@
+/*
+ * This file defines the MeetingSetup component.
+ * It allows users to configure their audio and video settings before joining a meeting.
+ */
+
 "use client";
 
 import {
@@ -12,6 +17,12 @@ import { toast } from "react-toastify";
 import ReturnToMenuDisplay from "@/components/shared/ReturnToMenuDisplay";
 import Navbar from "../shared/Navbar";
 
+/**
+ * Component for setting up meeting preferences.
+ * Handles device preview, microphone/camera toggling, and joining the call.
+ *
+ * @param setIsSetupComplete - Function to update the setup completion state.
+ */
 export default function MeetingSetup({
   setIsSetupComplete,
 }: {
@@ -101,11 +112,10 @@ export default function MeetingSetup({
           type="button"
           disabled={isJoining}
           className={`text-center py-3 text-white rounded-md p-2 
-                ${
-                  isJoining
-                    ? "bg-gray-400"
-                    : "bg-blue-500 hover:bg-blue-700 cursor-pointer"
-                }`}
+                ${isJoining
+              ? "bg-gray-400"
+              : "bg-blue-500 hover:bg-blue-700 cursor-pointer"
+            }`}
           onClick={handleJoin}
         >
           {isJoining ? "Joining..." : "Join meeting"}

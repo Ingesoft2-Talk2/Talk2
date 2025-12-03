@@ -1,5 +1,12 @@
 import Link from "next/link";
 
+/**
+ * A simple navigation bar for the landing page.
+ * Displays the application logo/title with a link to the home page.
+ *
+ * @component
+ * @returns {JSX.Element} The rendered navigation bar.
+ */
 export default function NavBar() {
   return (
     <nav className="flex">

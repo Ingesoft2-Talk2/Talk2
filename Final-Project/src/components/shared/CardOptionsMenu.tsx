@@ -1,3 +1,8 @@
+/*
+ * This file defines the CardOptionsMenu component.
+ * It provides a dropdown menu with options to edit or delete a meeting/call.
+ */
+
 "use client";
 
 import { Edit, MoreVertical, Trash } from "lucide-react";
@@ -15,6 +20,12 @@ interface CardOptionsMenuProps {
   refetch: () => void;
 }
 
+/**
+ * Component for displaying options menu on a meeting card.
+ * Allows users to edit or delete meetings based on their type.
+ *
+ * @param props - The properties for the options menu.
+ */
 export default function CardOptionsMenu({
   call_id,
   startsAt,

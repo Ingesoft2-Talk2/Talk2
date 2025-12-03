@@ -1,5 +1,14 @@
+/*
+ * This file is used to seed the database with initial data.
+ * It creates sample friend requests for testing purposes.
+ */
+
 import prisma from "@/lib/db";
 
+/**
+ * Main function to execute the seeding process.
+ * Creates multiple friend request records in the database.
+ */
 async function main() {
   await prisma.friendRequest.create({
     data: {
