@@ -25,9 +25,6 @@ jobs:
       - name: Install dependencies
         working-directory: ./Final-Project
         run: npm ci
-      - name: Generate Prisma Client
-        working-directory: ./Final-Project
-        run: npx prisma generate
         env:
           PRISMA_DATABASE_URL: ${{ secrets.PRISMA_DATABASE_URL }}
       - name: Run Prisma Migrations

@@ -59,3 +59,6 @@ cypress.env.json
 
 # cypress screenshots
 /cypress/screenshots
+
+#prisma generated
+/generated
