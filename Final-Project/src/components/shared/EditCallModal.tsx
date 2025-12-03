@@ -1,3 +1,8 @@
+/*
+ * This file defines the EditCallModal component.
+ * It provides a form to update the details of an existing meeting.
+ */
+
 "use client";
 
 import { useState } from "react";
@@ -13,6 +18,12 @@ type EditCallModal = {
   handleClose: () => void;
 };
 
+/**
+ * Modal component for editing meeting details.
+ * Allows users to update the description and scheduled time of a meeting.
+ *
+ * @param props - The properties for the edit modal.
+ */
 export default function EditCallModal({
   isOpen,
   call_id,

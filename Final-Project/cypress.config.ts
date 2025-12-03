@@ -1,7 +1,16 @@
+/*
+ * This file contains the configuration for Cypress, the end-to-end testing framework.
+ * It defines settings for both component and E2E testing.
+ */
+
 import { clerkSetup } from "@clerk/testing/cypress";
 import { defineConfig } from "cypress";
 import { resetDB } from "./cypress/utils/reset-db";
 
+/**
+ * Cypress configuration object.
+ * Configures dev server, spec patterns, base URL, and node events.
+ */
 export default defineConfig({
   component: {
     devServer: {
@@ -19,6 +28,14 @@ export default defineConfig({
 
     baseUrl: "http://localhost:3000",
 
+    /**
+     * Sets up Node events for Cypress.
+     * Registers tasks like database reset and Clerk setup.
+     *
+     * @param on - Function to register event listeners.
+     * @param config - The resolved Cypress configuration.
+     * @returns The updated configuration.
+     */
     setupNodeEvents(on, config) {
       on("task", {
         resetDB: async () => {

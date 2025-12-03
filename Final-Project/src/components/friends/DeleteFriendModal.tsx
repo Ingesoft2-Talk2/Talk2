@@ -1,3 +1,8 @@
+/*
+ * This file defines the DeleteFriendModal component.
+ * It displays a confirmation modal for removing a friend or deleting a friend request.
+ */
+
 "use client";
 
 import { useState } from "react";
@@ -12,6 +17,12 @@ type DeleteCallModal = {
   handleClose: () => void;
 };
 
+/**
+ * Modal component to confirm friend deletion.
+ * Handles the API call to remove the friend connection.
+ *
+ * @param props - The properties for the delete friend modal.
+ */
 export default function DeleteCallModal({
   isOpen,
   friend_id,

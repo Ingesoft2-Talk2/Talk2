@@ -1,3 +1,8 @@
+/*
+ * This file defines the DeleteCallModal component.
+ * It displays a confirmation modal for deleting a meeting or recording.
+ */
+
 "use client";
 
 import { useState } from "react";
@@ -14,6 +19,12 @@ type DeleteCallModal = {
   handleClose: () => void;
 };
 
+/**
+ * Modal component to confirm deletion of a call or recording.
+ * Handles the API call to delete the resource and updates the UI.
+ *
+ * @param props - The properties for the delete modal.
+ */
 export default function DeleteCallModal({
   isOpen,
   call_id,

@@ -1,3 +1,6 @@
+/**
+ * Represents a simplified user object used within the application.
+ */
 export interface SimpleUser {
   id: string;
   name: string;

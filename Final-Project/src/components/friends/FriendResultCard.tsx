@@ -1,3 +1,8 @@
+/*
+ * This file defines the FriendResultCard component.
+ * It displays a user found in the search results and allows sending a friend request.
+ */
+
 "use client";
 
 import { Plus, User } from "lucide-react";
@@ -12,6 +17,12 @@ type FriendResultCardProps = {
   refetch: () => void;
 };
 
+/**
+ * Component to display a search result user.
+ * Shows user details and a button to add them as a friend.
+ *
+ * @param props - The properties for the friend result card.
+ */
 export default function FriendResultCard({
   user,
   currentUserId,

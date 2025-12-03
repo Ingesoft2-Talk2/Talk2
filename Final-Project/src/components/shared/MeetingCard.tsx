@@ -1,3 +1,8 @@
+/*
+ * This file defines the MeetingCard component.
+ * It displays information about a meeting, including title, date, and actions like joining or copying the link.
+ */
+
 "use client";
 
 import { Copy } from "lucide-react";
@@ -22,6 +27,11 @@ interface MeetingCardProps {
   refetch: () => void;
 }
 
+/**
+ * MeetingCard component to display meeting details.
+ *
+ * @param props - The properties for the meeting card.
+ */
 export default function MeetingCard({
   Icon,
   title,

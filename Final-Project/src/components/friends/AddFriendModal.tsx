@@ -1,3 +1,8 @@
+/*
+ * This file defines the AddFriendModal component.
+ * It allows users to search for other users and send friend requests.
+ */
+
 "use client";
 
 import { useUser } from "@clerk/nextjs";
@@ -13,6 +18,12 @@ type AddFriendModalProps = {
   handleClose: () => void;
 };
 
+/**
+ * Modal component for adding friends.
+ * Provides a search interface to find users and send requests.
+ *
+ * @param props - The properties for the add friend modal.
+ */
 export default function AddFriendModal({
   isOpen,
   handleClose,

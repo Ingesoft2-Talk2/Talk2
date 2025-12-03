@@ -1,3 +1,8 @@
+/*
+ * This file defines the NewMeetingModal component.
+ * It provides a modal for users to start an instant meeting.
+ */
+
 "use client";
 
 import { useUser } from "@clerk/nextjs";
@@ -13,6 +18,12 @@ type NewMeetingModal = {
   handleClose: () => void;
 };
 
+/**
+ * Modal component for creating an instant meeting.
+ * Initializes a new call with Stream Video and redirects the user to the meeting room.
+ *
+ * @param props - The properties for the new meeting modal.
+ */
 export default function NewMeetingModal({
   isOpen,
   handleClose,

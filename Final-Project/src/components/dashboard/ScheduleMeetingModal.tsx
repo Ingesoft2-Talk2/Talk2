@@ -1,3 +1,8 @@
+/*
+ * This file defines the ScheduleMeetingModal component.
+ * It provides a form for users to schedule a meeting with a description and date/time.
+ */
+
 "use client";
 
 import { useUser } from "@clerk/nextjs";
@@ -13,6 +18,12 @@ type ScheduleMeetingModal = {
   onSuccess: (callId: string) => void;
 };
 
+/**
+ * Modal component for scheduling a meeting.
+ * Collects meeting details and creates a scheduled call via Stream Video.
+ *
+ * @param props - The properties for the schedule meeting modal.
+ */
 export default function ScheduleMeetingModal({
   isOpen,
   handleClose,

@@ -1,3 +1,8 @@
+/*
+ * This file defines the FriendCardOptionsMenu component.
+ * It provides options to manage friend requests (accept, reject, delete).
+ */
+
 "use client";
 
 import { useUser } from "@clerk/nextjs";
@@ -11,6 +16,12 @@ interface FriendCardOptionsMenuProps {
   refetch: () => void;
 }
 
+/**
+ * Component for displaying options menu on a friend card.
+ * Allows users to accept/reject pending requests or delete existing friends.
+ *
+ * @param props - The properties for the options menu.
+ */
 export default function FriendCardOptionsMenu({
   friend_id,
   friend_status,

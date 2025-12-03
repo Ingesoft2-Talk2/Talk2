@@ -11,6 +11,13 @@ import Link from "next/link";
 import LPFirst from "@/assets/landing-page/video-chat.svg";
 import LandingNavbar from "@/components/landing-page/LandingNavbar";
 
+/**
+ * The landing page of the application.
+ * Displays the hero section, features, and a link to the dashboard.
+ *
+ * @component
+ * @returns {JSX.Element} The rendered landing page.
+ */
 export default function Home() {
   return (
     <div className="min-h-screen bg-white text-black">

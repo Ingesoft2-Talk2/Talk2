@@ -1,3 +1,8 @@
+/*
+ * This file defines the DashboardCard component.
+ * It renders a card with an icon, title, and description, used for quick actions on the dashboard.
+ */
+
 "use client";
 
 interface DashboardCardProps {
@@ -8,6 +13,11 @@ interface DashboardCardProps {
   handleClick?: () => void;
 }
 
+/**
+ * Reusable card component for the dashboard.
+ *
+ * @param props - The properties for the dashboard card.
+ */
 export default function DashboardCard({
   color,
   Icon,

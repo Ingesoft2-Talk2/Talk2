@@ -1,3 +1,8 @@
+/*
+ * This file defines static links used in the application's sidebar.
+ * It maps routes to their corresponding icons and labels.
+ */
+
 import {
   BookUser,
   Calendar,
@@ -7,6 +12,10 @@ import {
   Video,
 } from "lucide-react";
 
+/**
+ * Array of sidebar link objects.
+ * Each object contains an icon, a route path, and a display label.
+ */
 export const sidebarLinks = [
   {
     icon: LayoutDashboard,

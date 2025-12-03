@@ -1,3 +1,9 @@
+/*
+ * This file defines the StreamVideoProvider component.
+ * It initializes the Stream Video client with the user's credentials and wraps the application
+ * to provide video calling capabilities.
+ */
+
 "use client";
 
 import { useUser } from "@clerk/nextjs";
@@ -8,6 +14,13 @@ import Loader from "@/components/shared/Loader";
 
 const API_KEY = process.env.NEXT_PUBLIC_STREAM_API_KEY;
 
+/**
+ * Provider component that sets up the Stream Video client.
+ * It handles user authentication and client initialization.
+ *
+ * @param children - The child components to be wrapped by the provider.
+ * @returns The StreamVideo provider wrapping the children, or a loader while initializing.
+ */
 export default function StreamVideoProvider({
   children,
 }: Readonly<{
