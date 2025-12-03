@@ -101,8 +101,9 @@ export default function FriendResultCard({
           <button
             type="button"
             disabled={isSending}
-            className={`flex items-center gap-1 bg-blue-500 hover:bg-blue-700 text-white px-3 py-1 rounded-lg transition cursor-pointer ${isSending ? "opacity-60 cursor-not-allowed" : ""
-              }`}
+            className={`flex items-center gap-1 bg-blue-500 hover:bg-blue-700 text-white px-3 py-1 rounded-lg transition cursor-pointer ${
+              isSending ? "opacity-60 cursor-not-allowed" : ""
+            }`}
             onClick={handleAddFriend}
           >
             <Plus className="w-4 h-4" />

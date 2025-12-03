@@ -51,9 +51,10 @@ export default function ReturnToMenuDisplay({
             onClick={handleClick}
             disabled={isNavigating}
             className={`w-full text-center py-3 rounded-md p-2 text-white border-none
-              ${isNavigating
-                ? "bg-gray-400"
-                : "bg-blue-500 hover:bg-blue-700 cursor-pointer"
+              ${
+                isNavigating
+                  ? "bg-gray-400"
+                  : "bg-blue-500 hover:bg-blue-700 cursor-pointer"
               }
             `}
           >

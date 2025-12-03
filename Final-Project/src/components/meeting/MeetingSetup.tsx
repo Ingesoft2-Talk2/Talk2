@@ -112,10 +112,11 @@ export default function MeetingSetup({
           type="button"
           disabled={isJoining}
           className={`text-center py-3 text-white rounded-md p-2 
-                ${isJoining
-              ? "bg-gray-400"
-              : "bg-blue-500 hover:bg-blue-700 cursor-pointer"
-            }`}
+                ${
+                  isJoining
+                    ? "bg-gray-400"
+                    : "bg-blue-500 hover:bg-blue-700 cursor-pointer"
+                }`}
           onClick={handleJoin}
         >
           {isJoining ? "Joining..." : "Join meeting"}

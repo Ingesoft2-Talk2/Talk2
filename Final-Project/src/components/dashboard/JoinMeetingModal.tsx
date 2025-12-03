@@ -83,9 +83,10 @@ export default function JoinMeetingModal({
               type="button"
               disabled={isJoining}
               className={`rounded-md p-2 text-white 
-                ${isJoining
-                  ? "bg-gray-400"
-                  : "bg-blue-500 hover:bg-blue-700 cursor-pointer"
+                ${
+                  isJoining
+                    ? "bg-gray-400"
+                    : "bg-blue-500 hover:bg-blue-700 cursor-pointer"
                 }`}
               onClick={handleJoin}
             >

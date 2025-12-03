@@ -112,15 +112,16 @@ export default function CallList({ type }: CallListProps) {
             }
             date={formatDate(
               (meeting as Call).state?.startsAt ||
-              (meeting as CallRecording).start_time,
+                (meeting as CallRecording).start_time,
               "readable",
             )}
             callType={type}
             link={
               type === "recordings"
                 ? (meeting as CallRecording).url
-                : `${process.env.NEXT_PUBLIC_BASE_URL}/meeting/${(meeting as Call).id
-                }`
+                : `${process.env.NEXT_PUBLIC_BASE_URL}/meeting/${
+                    (meeting as Call).id
+                  }`
             }
             ButtonIcon1={type === "recordings" ? Play : undefined}
             buttonText={type === "recordings" ? "Play" : "Start"}

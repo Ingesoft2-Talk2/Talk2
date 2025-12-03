@@ -90,9 +90,10 @@ export default function NewMeetingModal({
               type="button"
               disabled={isCreating}
               className={`rounded-md p-2 text-white
-                ${isCreating
-                  ? "bg-gray-400"
-                  : "bg-blue-500 hover:bg-blue-700 cursor-pointer"
+                ${
+                  isCreating
+                    ? "bg-gray-400"
+                    : "bg-blue-500 hover:bg-blue-700 cursor-pointer"
                 }`}
               onClick={createInstantMeeting}
             >

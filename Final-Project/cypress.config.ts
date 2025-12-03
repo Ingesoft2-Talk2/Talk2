@@ -7,7 +7,6 @@ import { clerkSetup } from "@clerk/testing/cypress";
 import { defineConfig } from "cypress";
 import { resetDB } from "./cypress/utils/reset-db";
 
-
 /**
  * Cypress configuration object.
  * Configures dev server, spec patterns, base URL, and node events.

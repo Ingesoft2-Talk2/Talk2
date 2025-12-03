@@ -153,10 +153,11 @@ export default function EditCallModal({
               data-testid="confirm-edit-btn"
               disabled={isUpdating}
               className={`rounded-md p-2 text-white
-                        ${isUpdating
-                  ? "bg-gray-400"
-                  : "bg-blue-500 hover:bg-blue-700 cursor-pointer"
-                }`}
+                        ${
+                          isUpdating
+                            ? "bg-gray-400"
+                            : "bg-blue-500 hover:bg-blue-700 cursor-pointer"
+                        }`}
               onClick={() => handleUpdate(call_id)}
             >
               {isUpdating ? "Updating..." : "Update Meeting"}

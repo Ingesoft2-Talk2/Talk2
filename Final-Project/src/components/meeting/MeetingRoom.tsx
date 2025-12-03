@@ -40,10 +40,11 @@ export default function MeetingRoom() {
         className={`
     fixed right-0 top-0 h-screen w-[350px] bg-[#19232d] z-20 p-6
     transform transition-all duration-300 ease-out
-    ${showParticipants
-            ? "translate-x-0 opacity-100"
-            : "translate-x-full opacity-0"
-          }
+    ${
+      showParticipants
+        ? "translate-x-0 opacity-100"
+        : "translate-x-full opacity-0"
+    }
       `}
       >
         <CallParticipantsList onClose={() => setShowParticipants(false)} />

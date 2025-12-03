@@ -97,8 +97,9 @@ export default function DeleteCallModal({
             <button
               type="button"
               disabled={isDeleting}
-              className={`px-4 py-2 rounded-md text-white cursor-pointer ${isDeleting ? "bg-red-300" : "bg-red-600 hover:bg-red-700"
-                }`}
+              className={`px-4 py-2 rounded-md text-white cursor-pointer ${
+                isDeleting ? "bg-red-300" : "bg-red-600 hover:bg-red-700"
+              }`}
               onClick={handleDelete}
             >
               {isDeleting ? "Deleting..." : "Delete"}
