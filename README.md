@@ -312,6 +312,7 @@ The application is configured for deployment on **Vercel**:
 4. Deploy
 
 > **Important:** Ensure your PostgreSQL database is accessible from your deployment environment. Consider using managed PostgreSQL services like:
+> - Vercel Postgres
 > - Supabase
 > - Railway
 > - Neon

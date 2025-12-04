@@ -3,7 +3,7 @@
  * It defines settings for both component and E2E testing.
  */
 
-import { clerkSetup } from "@clerk/testing/cypress";
+// import { clerkSetup } from "@clerk/testing/cypress";
 import { defineConfig } from "cypress";
 import { resetDB } from "./cypress/utils/reset-db";
 
@@ -43,7 +43,8 @@ export default defineConfig({
           return null;
         },
       });
-      return clerkSetup({ config });
+      // return clerkSetup({ config });
+      return config;
     },
   },
 });
