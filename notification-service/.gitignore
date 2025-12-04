@@ -1,0 +1,6 @@
+# Archivos/Carpetas generadas por Node.js/NPM
+node_modules/
+
+# Archivos de Entorno Secretos
+.env
+.env.local

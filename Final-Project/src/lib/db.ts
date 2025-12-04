@@ -3,7 +3,7 @@
  * It ensures that a single instance of PrismaClient is used across the application,
  * preventing multiple connections in development mode.
  */
-import { PrismaClient } from "../../generated/prisma/client";
+import { PrismaClient } from "../../generated/prisma";
 
 /**
  * Global object to store the Prisma client instance in development.
