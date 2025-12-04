@@ -1,3 +1,7 @@
+/**
+ * Test suite for updating call details via the API.
+ * Verifies successful updates and error handling for non-existent calls.
+ */
 describe("Call - UPDATE", () => {
   const base = "/api/call";
   const callId = crypto.randomUUID();

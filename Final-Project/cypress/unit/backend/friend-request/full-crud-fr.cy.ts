@@ -1,3 +1,7 @@
+/**
+ * Test suite for the full CRUD lifecycle of a friend request.
+ * Verifies Create, List, Accept (Update), and Delete operations in sequence.
+ */
 describe("FriendRequest - FULL CRUD FLOW", () => {
   const base = "/api/friend-request";
 

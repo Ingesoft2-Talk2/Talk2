@@ -13,6 +13,10 @@
 // https://on.cypress.io/configuration
 // ***********************************************************
 
+/**
+ * Imports custom commands and sets up component testing.
+ */
+
 // Import commands.js using ES2015 syntax:
 import "./commands";
 

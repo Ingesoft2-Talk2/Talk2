@@ -17,6 +17,18 @@ interface Invitee {
   name?: string;
 }
 
+/**
+ * Modal component for sending email invitations to a meeting.
+ * Allows users to add multiple email addresses and send invites via an API.
+ *
+ * @component
+ * @param {InviteModalProps} props - The component props.
+ * @param {boolean} props.isOpen - Whether the modal is currently open.
+ * @param {() => void} props.onClose - Function to close the modal.
+ * @param {string} props.callId - The ID of the call to invite users to.
+ * @param {string} props.title - The title of the meeting.
+ * @returns {JSX.Element | null} The rendered modal or null if not open.
+ */
 export default function InviteModal({
   isOpen,
   onClose,

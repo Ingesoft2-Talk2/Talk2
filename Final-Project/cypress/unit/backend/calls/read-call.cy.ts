@@ -1,3 +1,7 @@
+/**
+ * Test suite for retrieving call details via the API.
+ * Verifies successful retrieval and error handling for non-existent calls.
+ */
 describe("Call - READ", () => {
   const base = "/api/call";
 
