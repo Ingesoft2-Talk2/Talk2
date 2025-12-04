@@ -67,3 +67,6 @@ jobs:
           NEXT_PUBLIC_BASE_URL: ${{ secrets.NEXT_PUBLIC_BASE_URL }}
 
           PRISMA_DATABASE_URL: ${{ secrets.PRISMA_DATABASE_URL }}
+      # Builds a Docker image
+      - name: Build Docker Image
+        run: docker build -t talk2-backend ./Final-Project
