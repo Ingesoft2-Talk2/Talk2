@@ -6,8 +6,8 @@
 "use client";
 
 import { Copy, UserPlus } from "lucide-react";
-import { toast } from "react-toastify";
 import { useState } from "react";
+import { toast } from "react-toastify";
 import CardOptionsMenu from "./CardOptionsMenu";
 import InviteModal from "./InviteModal";
 
