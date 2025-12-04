@@ -83,8 +83,7 @@ export default function InviteModal({
       onClose();
       setInvitees([]);
       setEmailInput("");
-    } catch (error) {
-      console.error(error);
+    } catch {
       toast.error("Failed to send invitations. Please try again.");
     } finally {
       setIsLoading(false);
@@ -102,7 +101,7 @@ export default function InviteModal({
             <button
               type="button"
               onClick={onClose}
-              className="text-gray-500 hover:text-gray-700 transition-colors"
+              className="text-gray-500 hover:text-gray-700 transition-colors cursor-pointer"
             >
               <X size={24} />
             </button>
@@ -127,7 +126,7 @@ export default function InviteModal({
               <button
                 type="button"
                 onClick={handleAddEmail}
-                className="bg-blue-100 text-blue-600 p-2 rounded-lg hover:bg-blue-200 transition-colors"
+                className="bg-blue-100 text-blue-600 p-2 rounded-lg hover:bg-blue-200 transition-colors cursor-pointer"
               >
                 <Plus size={24} />
               </button>
@@ -150,7 +149,7 @@ export default function InviteModal({
                     <button
                       type="button"
                       onClick={() => handleRemoveInvitee(invitee.email)}
-                      className="text-red-400 hover:text-red-600 transition-colors p-1"
+                      className="text-red-400 hover:text-red-600 transition-colors p-1 cursor-pointer"
                     >
                       <Trash2 size={16} />
                     </button>
@@ -163,7 +162,7 @@ export default function InviteModal({
               <button
                 type="button"
                 onClick={onClose}
-                className="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-lg transition-colors"
+                className="cursor-pointer px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-lg transition-colors"
                 disabled={isLoading}
               >
                 Cancel
@@ -172,7 +171,7 @@ export default function InviteModal({
                 type="button"
                 onClick={handleSendInvites}
                 disabled={isLoading || invitees.length === 0}
-                className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center gap-2"
+                className="cursor-pointer px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center gap-2"
               >
                 {isLoading ? "Sending..." : "Send Invites"}
               </button>

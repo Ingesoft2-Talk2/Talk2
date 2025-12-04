@@ -90,7 +90,6 @@ export async function POST(
       { status: 200 },
     );
   } catch (error) {
-    console.error("Error sending invitations:", error);
     return NextResponse.json(
       {
         message: "Failed to send invitations",
