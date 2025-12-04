@@ -1,3 +1,7 @@
+/**
+ * Test suite for creating a call via the API.
+ * Verifies successful creation and error handling for missing parameters.
+ */
 describe("Call - CREATE", () => {
   const base = "/api/call";
 

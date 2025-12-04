@@ -1,3 +1,7 @@
+/**
+ * Test suite for listing friend requests via the API.
+ * Verifies successful retrieval of pending requests and error handling for missing parameters.
+ */
 describe("FriendRequest - LIST", () => {
   const base = "/api/friend-request";
 

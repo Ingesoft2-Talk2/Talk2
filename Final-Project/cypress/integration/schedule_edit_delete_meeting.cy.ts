@@ -1,3 +1,7 @@
+/**
+ * Integration test suite for the meeting lifecycle.
+ * Verifies scheduling, editing, and deleting a meeting via the UI.
+ */
 describe("Schedule, edit and delete meeting", () => {
   let meetingDescription: string;
   let updatedDescription: string;

@@ -1,3 +1,8 @@
+/**
+ * Test suite for the Dashboard page.
+ * Verifies the rendering of header info, time/date, and dashboard cards.
+ * Also checks that modals open correctly.
+ */
 describe("Dashboard Page", () => {
   beforeEach(() => {
     cy.visit("/");

@@ -38,6 +38,9 @@
 
 // cypress-commands.d.ts
 
+/**
+ * Extends the Cypress namespace to include custom commands.
+ */
 declare namespace Cypress {
   interface Chainable {
     /**

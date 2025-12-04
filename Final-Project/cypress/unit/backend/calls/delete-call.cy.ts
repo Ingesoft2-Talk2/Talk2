@@ -1,3 +1,7 @@
+/**
+ * Test suite for deleting a call via the API.
+ * Verifies successful deletion and error handling for non-existent calls.
+ */
 describe("Call - DELETE", () => {
   const base = "/api/call";
   const callId = crypto.randomUUID();

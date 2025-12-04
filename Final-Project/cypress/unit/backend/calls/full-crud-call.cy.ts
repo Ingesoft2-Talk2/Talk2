@@ -1,3 +1,7 @@
+/**
+ * Test suite for the full CRUD lifecycle of a call.
+ * Verifies Create, Read, Update, and Delete operations in sequence.
+ */
 describe("Call - FULL CRUD FLOW", () => {
   const base = "/api/call";
 
