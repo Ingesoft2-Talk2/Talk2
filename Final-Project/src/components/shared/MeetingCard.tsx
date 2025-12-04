@@ -5,9 +5,11 @@
 
 "use client";
 
-import { Copy } from "lucide-react";
+import { Copy, UserPlus } from "lucide-react";
 import { toast } from "react-toastify";
+import { useState } from "react";
 import CardOptionsMenu from "./CardOptionsMenu";
+import InviteModal from "./InviteModal";
 
 interface MeetingCardProps {
   key: string;
@@ -48,6 +50,8 @@ export default function MeetingCard({
   filename,
   refetch,
 }: MeetingCardProps) {
+  const [isInviteModalOpen, setIsInviteModalOpen] = useState(false);
+
   const handleCopyLink = () => {
     try {
       navigator.clipboard.writeText(link);
@@ -96,6 +100,17 @@ export default function MeetingCard({
               {buttonText}
             </button>
 
+            {callType === "upcoming" && (
+              <button
+                type="button"
+                onClick={() => setIsInviteModalOpen(true)}
+                className="bg-blue-500 focus-visible:ring-0 focus-visible:ring-offset-0 text-white rounded-md p-2 cursor-pointer hover:bg-blue-700 flex items-center justify-center gap-3"
+              >
+                Invite
+                <UserPlus size={18} />
+              </button>
+            )}
+
             <button
               type="button"
               onClick={handleCopyLink}
@@ -107,6 +122,15 @@ export default function MeetingCard({
           </div>
         )}
       </article>
+
+      {callType === "upcoming" && call_id && (
+        <InviteModal
+          isOpen={isInviteModalOpen}
+          onClose={() => setIsInviteModalOpen(false)}
+          callId={call_id}
+          title={title}
+        />
+      )}
     </section>
   );
 }
