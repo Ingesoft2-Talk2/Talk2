@@ -55,7 +55,8 @@ export async function GET(req: Request) {
     });
 
     const filteredUsers = users.filter(
-      (user: SimpleUser) => user.id !== currentUserId,
+      (user: SimpleUser) =>
+        user.id !== currentUserId && user.name !== "cypress",
     );
 
     const targetIds = filteredUsers.map((u) => u.id);
