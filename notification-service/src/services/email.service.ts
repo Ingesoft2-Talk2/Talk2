@@ -1,3 +1,9 @@
+/*
+ * This file contains the email service for sending notifications via SendGrid.
+ * It provides functions to send different types of email notifications including
+ * friend requests, meeting invitations, and recording availability alerts.
+ */
+
 import { sgMail, FROM_EMAIL } from '../config/email';
 import { logger } from '../utils/logger';
 import {
@@ -6,9 +12,16 @@ import {
   CreateRecordingReadyNotificationDTO,
 } from '../types/notification.types';
 
+// Frontend URL for generating links in emails
 const FRONTEND_URL = process.env.FRONTEND_URL || 'http://localhost:3000';
 
-// Base HTML template
+/**
+ * Generates the base HTML template for all email notifications.
+ * This template includes styling and branding consistent across all emails.
+ * 
+ * @param content - The HTML content to be inserted into the template body
+ * @returns Complete HTML email template as a string
+ */
 const getEmailTemplate = (content: string): string => {
   return `
     <!DOCTYPE html>
@@ -97,7 +110,14 @@ const getEmailTemplate = (content: string): string => {
   `;
 };
 
-// Friend Request Email
+/**
+ * Sends a friend request notification email to the recipient.
+ * This email informs the user about a new friend request and provides
+ * a link to view and manage their pending requests.
+ * 
+ * @param data - Friend request notification data including sender and receiver information
+ * @returns Promise resolving to true if email was sent successfully, false otherwise
+ */
 export async function sendFriendRequestEmail(data: CreateFriendRequestNotificationDTO): Promise<boolean> {
   const content = `
     <div class="content">
@@ -128,7 +148,14 @@ export async function sendFriendRequestEmail(data: CreateFriendRequestNotificati
   }
 }
 
-// Meeting Invitation Email
+/**
+ * Sends a meeting invitation email to the invited user.
+ * This email includes meeting details, scheduled time, and a direct link
+ * to join the meeting.
+ * 
+ * @param data - Meeting invitation data including host, meeting details, and invitee information
+ * @returns Promise resolving to true if email was sent successfully, false otherwise
+ */
 export async function sendMeetingInvitationEmail(data: CreateMeetingInvitationNotificationDTO): Promise<boolean> {
   const scheduledTimeText = data.scheduledTime
     ? `<p><strong>Hora programada:</strong> ${new Date(data.scheduledTime).toLocaleString('es-ES', {
@@ -167,7 +194,14 @@ export async function sendMeetingInvitationEmail(data: CreateMeetingInvitationNo
   }
 }
 
-// Recording Ready Email
+/**
+ * Sends a recording ready notification email to the user.
+ * This email notifies the user that their meeting recording is available
+ * for viewing and downloading.
+ * 
+ * @param data - Recording notification data including meeting title, duration, and recording URL
+ * @returns Promise resolving to true if email was sent successfully, false otherwise
+ */
 export async function sendRecordingReadyEmail(data: CreateRecordingReadyNotificationDTO): Promise<boolean> {
   const durationText = data.duration
     ? `<p><strong>Duración:</strong> ${Math.floor(data.duration / 60)} minutos</p>`

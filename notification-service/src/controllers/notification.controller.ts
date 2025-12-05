@@ -1,3 +1,9 @@
+/*
+ * This file contains the HTTP request handlers (controllers) for notification endpoints.
+ * Each controller function handles a specific API endpoint, validates requests,
+ * calls the appropriate service functions, and returns HTTP responses.
+ */
+
 import { Request, Response, NextFunction } from 'express';
 import {
     createFriendRequestNotification,
@@ -14,7 +20,14 @@ import {
 } from '../types/notification.types';
 
 
-// POST /api/notifications/friend-request
+/**
+ * Handles POST /api/notifications/friend-request endpoint.
+ * Creates and sends a friend request notification to the receiver.
+ * 
+ * @param req - Express request object containing friend request data in body
+ * @param res - Express response object
+ * @param next - Express next function for error handling
+ */
 export const sendFriendRequestNotification = async (
     req: Request,
     res: Response,
@@ -33,7 +46,14 @@ export const sendFriendRequestNotification = async (
     }
 };
 
-// POST /api/notifications/meeting-invitation
+/**
+ * Handles POST /api/notifications/meeting-invitation endpoint.
+ * Creates and sends a meeting invitation notification to the invited user.
+ * 
+ * @param req - Express request object containing meeting invitation data in body
+ * @param res - Express response object
+ * @param next - Express next function for error handling
+ */
 export const sendMeetingInvitationNotification = async (
     req: Request,
     res: Response,
@@ -52,7 +72,14 @@ export const sendMeetingInvitationNotification = async (
     }
 };
 
-// POST /api/notifications/recording-ready
+/**
+ * Handles POST /api/notifications/recording-ready endpoint.
+ * Creates and sends a recording ready notification to the user.
+ * 
+ * @param req - Express request object containing recording data in body
+ * @param res - Express response object
+ * @param next - Express next function for error handling
+ */
 export const sendRecordingReadyNotification = async (
     req: Request,
     res: Response,
@@ -71,7 +98,14 @@ export const sendRecordingReadyNotification = async (
     }
 };
 
-// GET /api/notifications/:userId
+/**
+ * Handles GET /api/notifications/:userId endpoint.
+ * Retrieves all notifications for a specific user.
+ * 
+ * @param req - Express request object with userId in params
+ * @param res - Express response object
+ * @param next - Express next function for error handling
+ */
 export const getNotifications = async (
     req: Request,
     res: Response,
@@ -90,7 +124,14 @@ export const getNotifications = async (
     }
 };
 
-// GET /api/notifications/:userId/unread
+/**
+ * Handles GET /api/notifications/:userId/unread endpoint.
+ * Retrieves only unread notifications for a specific user.
+ * 
+ * @param req - Express request object with userId in params
+ * @param res - Express response object
+ * @param next - Express next function for error handling
+ */
 export const getUnreadNotifications = async (
     req: Request,
     res: Response,
@@ -110,7 +151,14 @@ export const getUnreadNotifications = async (
     }
 };
 
-// PATCH /api/notifications/:id/read
+/**
+ * Handles PATCH /api/notifications/:id/read endpoint.
+ * Marks a specific notification as read.
+ * 
+ * @param req - Express request object with notification id in params
+ * @param res - Express response object
+ * @param next - Express next function for error handling
+ */
 export const markAsRead = async (
     req: Request,
     res: Response,
@@ -129,7 +177,14 @@ export const markAsRead = async (
     }
 };
 
-// PATCH /api/notifications/:userId/read-all
+/**
+ * Handles PATCH /api/notifications/:userId/read-all endpoint.
+ * Marks all notifications for a user as read.
+ * 
+ * @param req - Express request object with userId in params
+ * @param res - Express response object
+ * @param next - Express next function for error handling
+ */
 export const markAllAsRead = async (
     req: Request,
     res: Response,

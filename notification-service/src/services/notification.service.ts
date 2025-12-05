@@ -1,3 +1,10 @@
+/*
+ * This file contains the notification service business logic.
+ * It handles creation of different types of notifications, manages
+ * Socket.io real-time events, sends emails, and provides functions
+ * for retrieving and updating notification status.
+ */
+
 import { Server as SocketServer } from 'socket.io';
 import { Notification } from '../models/Notification';
 import { clerkClient } from '../config/clerk';
@@ -15,13 +22,26 @@ import {
     sendRecordingReadyEmail,
 } from './email.service';
 
+// Socket.io server instance for real-time notifications
 let io: SocketServer | null = null;
 
+/**
+ * Sets the Socket.io server instance to be used for real-time notifications.
+ * This function must be called during server initialization before sending notifications.
+ * 
+ * @param socketServer - The Socket.io server instance
+ */
 export function setSocketServer(socketServer: SocketServer): void {
     io = socketServer;
 }
 
-// Helper function to emit socket event
+/**
+ * Emits a real-time notification to a specific user via Socket.io.
+ * The notification is sent to the user's room identified by their user ID.
+ * 
+ * @param userId - The ID of the user to receive the notification
+ * @param payload - The notification data to send
+ */
 function emitNotification(userId: string, payload: SocketNotificationPayload): void {
     if (io) {
         io.to(userId).emit('new_notification', payload);
@@ -29,12 +49,19 @@ function emitNotification(userId: string, payload: SocketNotificationPayload): v
     }
 }
 
-// Create Friend Request Notification
+/**
+ * Creates and sends a friend request notification.
+ * This function creates a notification in the database, sends an email,
+ * and emits a real-time Socket.io event to the receiver.
+ * 
+ * @param data - Friend request notification data including sender and receiver information
+ * @throws {Error} If notification creation or email sending fails
+ */
 export async function createFriendRequestNotification(
     data: CreateFriendRequestNotificationDTO
 ): Promise<void> {
     try {
-        // Create notification in database
+        // Create notification document in MongoDB
         const notification = await Notification.create({
             userId: data.receiverId,
             type: NotificationType.FRIEND_REQUEST,
@@ -51,14 +78,14 @@ export async function createFriendRequestNotification(
 
         logger.info(`Friend request notification created for user ${data.receiverId}`);
 
-        // Send email
+        // Send email notification
         const emailSent = await sendFriendRequestEmail(data);
         if (emailSent) {
             notification.emailSent = true;
             await notification.save();
         }
 
-        // Emit socket event
+        // Emit real-time notification via Socket.io
         emitNotification(data.receiverId, {
             id: notification._id.toString(),
             type: notification.type,
@@ -73,7 +100,14 @@ export async function createFriendRequestNotification(
     }
 }
 
-// Create Meeting Invitation Notification
+/**
+ * Creates and sends a meeting invitation notification.
+ * This function creates a notification in the database, sends an email,
+ * and emits a real-time Socket.io event to the invited user.
+ * 
+ * @param data - Meeting invitation data including host, meeting details, and invitee information
+ * @throws {Error} If notification creation or email sending fails
+ */
 export async function createMeetingInvitationNotification(
     data: CreateMeetingInvitationNotificationDTO
 ): Promise<void> {
@@ -96,14 +130,14 @@ export async function createMeetingInvitationNotification(
 
         logger.info(`Meeting invitation notification created for user ${data.invitedUserId}`);
 
-        // Send email
+        // Send email notification
         const emailSent = await sendMeetingInvitationEmail(data);
         if (emailSent) {
             notification.emailSent = true;
             await notification.save();
         }
 
-        // Emit socket event
+        // Emit real-time notification via Socket.io
         emitNotification(data.invitedUserId, {
             id: notification._id.toString(),
             type: notification.type,
@@ -118,7 +152,14 @@ export async function createMeetingInvitationNotification(
     }
 }
 
-// Create Recording Ready Notification
+/**
+ * Creates and sends a recording ready notification.
+ * This function creates a notification in the database, sends an email,
+ * and emits a real-time Socket.io event to the user.
+ * 
+ * @param data - Recording notification data including meeting title, duration, and recording URL
+ * @throws {Error} If notification creation or email sending fails
+ */
 export async function createRecordingReadyNotification(
     data: CreateRecordingReadyNotificationDTO
 ): Promise<void> {
@@ -140,14 +181,14 @@ export async function createRecordingReadyNotification(
 
         logger.info(`Recording ready notification created for user ${data.userId}`);
 
-        // Send email
+        // Send email notification
         const emailSent = await sendRecordingReadyEmail(data);
         if (emailSent) {
             notification.emailSent = true;
             await notification.save();
         }
 
-        // Emit socket event
+        // Emit real-time notification via Socket.io
         emitNotification(data.userId, {
             id: notification._id.toString(),
             type: notification.type,
@@ -162,7 +203,15 @@ export async function createRecordingReadyNotification(
     }
 }
 
-// Get user notifications
+/**
+ * Retrieves notifications for a specific user from the database.
+ * Results are sorted by creation date (newest first) and limited to 50 items.
+ * 
+ * @param userId - The ID of the user whose notifications to retrieve
+ * @param unreadOnly - If true, only returns unread notifications
+ * @returns Array of notification documents
+ * @throws {Error} If database query fails
+ */
 export async function getUserNotifications(userId: string, unreadOnly = false) {
     try {
         const filter: any = { userId };
@@ -182,7 +231,13 @@ export async function getUserNotifications(userId: string, unreadOnly = false) {
     }
 }
 
-// Mark notification as read
+/**
+ * Marks a specific notification as read in the database.
+ * 
+ * @param notificationId - The ID of the notification to mark as read
+ * @returns The updated notification document
+ * @throws {Error} If notification is not found or update fails
+ */
 export async function markNotificationAsRead(notificationId: string) {
     try {
         const notification = await Notification.findByIdAndUpdate(
@@ -202,7 +257,13 @@ export async function markNotificationAsRead(notificationId: string) {
     }
 }
 
-// Mark all notifications as read
+/**
+ * Marks all unread notifications for a user as read.
+ * This is useful for "mark all as read" functionality.
+ * 
+ * @param userId - The ID of the user whose notifications to mark as read
+ * @throws {Error} If database update fails
+ */
 export async function markAllNotificationsAsRead(userId: string) {
     try {
         await Notification.updateMany(
@@ -217,7 +278,14 @@ export async function markAllNotificationsAsRead(userId: string) {
     }
 }
 
-// Get user info from Clerk
+/**
+ * Fetches user information from Clerk authentication service.
+ * This is used to retrieve user details like email and name for notifications.
+ * 
+ * @param userId - The Clerk user ID
+ * @returns User object containing id, email, name, and image URL
+ * @throws {Error} If Clerk API call fails
+ */
 export async function getUserFromClerk(userId: string) {
     try {
         const user = await clerkClient.users.getUser(userId);
