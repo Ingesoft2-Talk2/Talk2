@@ -162,6 +162,62 @@ Environment Configuration
 
 The docker-compose.yml file handles the environment connection between the app and the database automatically using the service name db.
 
+## **Local CI/CD Testing (GitHub Actions)**
+
+To simulate the GitHub Actions pipeline locally (running tests and building the Docker image without pushing to GitHub), we use a tool called act.
+
+# 1. Install act
+
+Windows (via Winget):
+
+winget install nektos.act
+
+
+Alternatively, download the Windows-x86_64.zip from the official releases page and place act.exe in your project root.
+
+# 2. Configure Secrets (my.secrets)
+
+Create a file named my.secrets in the root directory (ensure it is added to .gitignore). This file allows act to access your environment variables during the build process.
+
+File content format:
+
+PRISMA_DATABASE_URL=postgres: ...
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY= ...
+CLERK_SECRET_KEY=sk_test_...
+NEXT_PUBLIC_STREAM_API_KEY=...
+STREAM_SECRET_KEY=...
+CYPRESS_CLERK_IDENTIFIER=testuser@example.com
+CYPRESS_CLERK_PASSWORD=password123
+CYPRESS_CREATED_BY_ID=user_id...
+NEXT_PUBLIC_BASE_URL=http://localhost:3000
+NEXT_PUBLIC_CLERK_BASE_URL=https://...
+NEXT_PUBLIC_STREAM_BASE_URL=http://localhost:3000
+
+
+Note: Ensure the file is saved with UTF-8 encoding and LF line endings to avoid parsing errors on Windows.
+
+# 3. Run the Pipeline
+
+Open your terminal in the project root (where act.exe is located) and run:
+
+.\act.exe --secret-file my.secrets
+
+
+What this does:
+
+Sets up a Docker container simulating Ubuntu.
+
+Installs Node.js and dependencies.
+
+Runs Prisma migrations and linting.
+
+Executes Cypress E2E tests (using a virtual screen Xvfb).
+
+Builds the production Docker Image (talk2-backend).
+
+If everything is correct, you will see a Job succeeded message at the end.
+
+
 
 
 ## **Setup and Usage**
