@@ -96,6 +96,42 @@ export async function POST(
       },
     });
 
+    // Send notification
+    try {
+      const { clerkClient } = await import("@clerk/nextjs/server");
+      const client = await clerkClient();
+
+      const [sender, receiver] = await Promise.all([
+        client.users.getUser(currentUserId),
+        client.users.getUser(otherUserId),
+      ]);
+
+      const notificationData = {
+        receiverId: otherUserId,
+        receiverEmail: receiver.emailAddresses[0]?.emailAddress,
+        senderName:
+          `${sender.firstName || ""} ${sender.lastName || ""}`.trim() ||
+          "Usuario",
+        senderImageUrl: sender.imageUrl,
+        friendRequestId: friendRequest.id,
+      };
+
+      if (notificationData.receiverEmail) {
+        const notificationUrl =
+          process.env.NOTIFICATION_SERVICE_URL || "http://localhost:4000";
+        await fetch(`${notificationUrl}/api/notifications/friend-request`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(notificationData),
+        });
+      }
+    } catch (error) {
+      console.error("Failed to send notification:", error);
+      // Don't fail the request if notification fails
+    }
+
     return NextResponse.json(
       { message: "Friend request sent", friendRequest },
       { status: 201 },

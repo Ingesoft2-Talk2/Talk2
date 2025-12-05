@@ -1,18 +1,28 @@
-
-
 services:
-  web:
+  notification-service:
     build:
-      context: .
-      args:
-        NEXT_PUBLIC_STREAM_BASE_URL: "http://localhost:3000"
-        NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: "pk_test_d2FybS1yYXR0bGVyLTU1LmNsZXJrLmFjY291bnRzLmRldiQ"
-        NEXT_PUBLIC_STREAM_API_KEY: "xs4acedg9xue"
-    container_name: talk2_web
+      context: ../notification-service
+    container_name: talk2_notification
     restart: always
     ports:
-      - "3000:3000"
-    env_file:
-      - .env
+      - "4000:4000"
     environment:
-      NODE_ENV: production
+      - PORT=4000
+      - MONGO_URL=mongodb://mongo:27017/talk2-notifications
+      - FRONTEND_URL=http://localhost:3000
+    env_file:
+      - ../notification-service/.env
+    depends_on:
+      - mongo
+
+  mongo:
+    image: mongo:latest
+    container_name: talk2_mongo
+    restart: always
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+
+volumes:
+  mongo_data:

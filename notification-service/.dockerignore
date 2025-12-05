@@ -1,0 +1,40 @@
+node_modules
+dist
+.git
+.DS_Store
+coverage
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Test files
+test-*.js
+*.test.js
+*.spec.js
+notification-client-test/
+
+# Legacy files
+db.js
+index.js
+email/
+models/
+
+# IDE
+.vscode
+.idea
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+*.log
+
+# Docker
+Dockerfile
+.dockerignore
+docker-compose.yml
+
+# Documentation
+README.md

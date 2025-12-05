@@ -35,8 +35,7 @@ jobs:
       - name: Run Biome Lint
         working-directory: ./Final-Project
         run: npx biome check .
-
-      # Uncomment this block only when running with nektos/act for local GitHub Actions testing
+      #Uncomment this block only when running with nektos/act for local GitHub Actions testing
       # - name: Install Xvfb (required for Cypress)
       #   if: runner.os == 'Linux'
       #   run: |
@@ -67,3 +66,10 @@ jobs:
           NEXT_PUBLIC_BASE_URL: ${{ secrets.NEXT_PUBLIC_BASE_URL }}
 
           PRISMA_DATABASE_URL: ${{ secrets.PRISMA_DATABASE_URL }}
+      - name: Build Docker Image
+        run: |
+          docker build \
+            --build-arg PRISMA_DATABASE_URL="${{ secrets.PRISMA_DATABASE_URL }}" \
+            --build-arg NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY="${{ secrets.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY }}" \
+            --build-arg NEXT_PUBLIC_STREAM_API_KEY="${{ secrets.NEXT_PUBLIC_STREAM_API_KEY }}" \
+            -t talk2-backend ./Final-Project
