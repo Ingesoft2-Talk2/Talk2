@@ -36,12 +36,12 @@ jobs:
         working-directory: ./Final-Project
         run: npx biome check .
 
-      # Uncomment this block only when running with nektos/act for local GitHub Actions testing
-      # - name: Install Xvfb (required for Cypress)
-      #   if: runner.os == 'Linux'
-      #   run: |
-      #     sudo apt-get update
-      #     sudo apt-get install -y libgtk-3-0t64 libgbm-dev libnotify-dev libnss3 libxss1 libasound2t64 libxtst6 xauth xvfb
+      #Uncomment this block only when running with nektos/act for local GitHub Actions testing
+      - name: Install Xvfb (required for Cypress)
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libgtk-3-0t64 libgbm-dev libnotify-dev libnss3 libxss1 libasound2t64 libxtst6 xauth xvfb
       - name: Cypress run
         uses: cypress-io/github-action@v6
         with:
@@ -69,4 +69,9 @@ jobs:
           PRISMA_DATABASE_URL: ${{ secrets.PRISMA_DATABASE_URL }}
       # Builds a Docker image
       - name: Build Docker Image
-        run: docker build -t talk2-backend ./Final-Project
+        run: |
+          docker build \
+            --build-arg PRISMA_DATABASE_URL="${{ secrets.PRISMA_DATABASE_URL }}" \
+            --build-arg NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY="${{ secrets.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY }}" \
+            --build-arg NEXT_PUBLIC_STREAM_API_KEY="${{ secrets.NEXT_PUBLIC_STREAM_API_KEY }}" \
+            -t talk2-backend ./Final-Project

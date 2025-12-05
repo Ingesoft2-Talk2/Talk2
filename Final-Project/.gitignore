@@ -55,3 +55,8 @@ cypress.env.json
 #prisma generated
 /generated
 
+#secrets file to create image
+.secrets
+my.secrets
+act.exe
+
