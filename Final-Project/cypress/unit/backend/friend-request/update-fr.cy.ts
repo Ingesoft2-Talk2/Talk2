@@ -1,3 +1,7 @@
+/**
+ * Test suite for updating friend requests (accepting) via the API.
+ * Verifies successful status update to ACCEPTED and error handling.
+ */
 describe("FriendRequest - UPDATE", () => {
   const base = "/api/friend-request";
 

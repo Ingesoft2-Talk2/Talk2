@@ -1,3 +1,7 @@
+/**
+ * Test suite for creating friend requests via the API.
+ * Verifies successful creation, handling of existing requests, and error cases.
+ */
 describe("FriendRequest - CREATE", () => {
   const base = "/api/friend-request";
 

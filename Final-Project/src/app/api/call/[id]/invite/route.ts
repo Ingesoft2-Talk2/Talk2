@@ -8,6 +8,14 @@ const streamBaseUrl = process.env.NEXT_PUBLIC_STREAM_BASE_URL;
 const N8N_WEBHOOK_URL =
   "https://acsorbi3.app.n8n.cloud/webhook/80b5507d-77ab-49cc-8aae-1fc445637586";
 
+/**
+ * POST handler to send meeting invitations via email.
+ * Fetches meeting details from Stream and triggers an n8n webhook to send emails.
+ *
+ * @param req - The request object containing the list of invitees.
+ * @param params - The route parameters containing the call ID.
+ * @returns A JSON response indicating success or failure.
+ */
 export async function POST(
   req: Request,
   { params }: { params: Promise<{ id: string }> },

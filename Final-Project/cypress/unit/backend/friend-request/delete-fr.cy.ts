@@ -1,3 +1,7 @@
+/**
+ * Test suite for deleting friend requests via the API.
+ * Verifies successful deletion and error handling for non-existent requests.
+ */
 describe("FriendRequest - DELETE", () => {
   const base = "/api/friend-request";
 
