@@ -13,6 +13,10 @@
 // https://on.cypress.io/configuration
 // ***********************************************************
 
+/**
+ * Imports custom commands and Clerk testing utilities.
+ */
+
 // Import commands.js using ES2015 syntax:
 /// <reference types="cypress" />
 import { addClerkCommands } from "@clerk/testing/cypress";
