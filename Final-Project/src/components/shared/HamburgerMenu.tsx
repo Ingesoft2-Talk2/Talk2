@@ -15,6 +15,13 @@ import { sidebarLinks } from "@/utils/staticLinks";
  * HamburgerMenu component for mobile navigation.
  * Manages the open/close state of the mobile menu.
  */
+/**
+ * HamburgerMenu component for mobile navigation.
+ * Manages the open/close state of the mobile menu and renders the navigation links.
+ *
+ * @component
+ * @returns {JSX.Element} The rendered hamburger menu button and slide-out drawer.
+ */
 export default function HamburgerMenu() {
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
