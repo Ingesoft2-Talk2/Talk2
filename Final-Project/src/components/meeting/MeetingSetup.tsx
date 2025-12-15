@@ -11,7 +11,8 @@ import {
   useCallStateHooks,
   VideoPreview,
 } from "@stream-io/video-react-sdk";
-import { CalendarClock, PhoneOff } from "lucide-react";
+import { PhoneOff } from "lucide-react";
+// import { CalendarClock } from "lucide-react";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import ReturnToMenuDisplay from "@/components/shared/ReturnToMenuDisplay";
@@ -28,11 +29,12 @@ export default function MeetingSetup({
 }: {
   setIsSetupComplete: (value: boolean) => void;
 }) {
-  const { useCallEndedAt, useCallStartsAt } = useCallStateHooks();
-  const callStartsAt = useCallStartsAt();
+  const { useCallEndedAt } = useCallStateHooks();
+  // const { useCallStartsAt } = useCallStateHooks();
+  // const callStartsAt = useCallStartsAt();
+  // const callTimeNotArrived =
+  //   callStartsAt && new Date(callStartsAt) > new Date();
   const callEndedAt = useCallEndedAt();
-  const callTimeNotArrived =
-    callStartsAt && new Date(callStartsAt) > new Date();
   const callHasEnded = !!callEndedAt;
   const [isJoining, setIsJoining] = useState(false);
 
@@ -56,13 +58,13 @@ export default function MeetingSetup({
     }
   }, [isMicCamToggled, call.camera, call.microphone]);
 
-  if (callTimeNotArrived)
-    return (
-      <ReturnToMenuDisplay
-        title={`Your Meeting has not started yet. It is scheduled for ${callStartsAt.toLocaleString()}`}
-        Icon={CalendarClock}
-      />
-    );
+  // if (callTimeNotArrived)
+  //   return (
+  //     <ReturnToMenuDisplay
+  //       title={`Your Meeting has not started yet. It is scheduled for ${callStartsAt.toLocaleString()}`}
+  //       Icon={CalendarClock}
+  //     />
+  //   );
 
   if (callHasEnded)
     return (
