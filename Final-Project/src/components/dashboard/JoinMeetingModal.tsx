@@ -42,8 +42,8 @@ export default function JoinMeetingModal({
       link = `http://${link}`;
     }
 
-    const BASE = `http://${process.env.NEXT_PUBLIC_BASE_URL}/meeting/`;
-    const BASE_HTTPS = `https://${process.env.NEXT_PUBLIC_BASE_URL}/meeting/`;
+    const BASE = `${process.env.NEXT_PUBLIC_BASE_URL}/meeting/`;
+    const BASE_HTTPS = `${process.env.NEXT_PUBLIC_BASE_URL}/meeting/`;
 
     if (link.startsWith(BASE) || link.startsWith(BASE_HTTPS)) {
       router.push(link);
@@ -83,10 +83,9 @@ export default function JoinMeetingModal({
               type="button"
               disabled={isJoining}
               className={`rounded-md p-2 text-white 
-                ${
-                  isJoining
-                    ? "bg-gray-400"
-                    : "bg-blue-500 hover:bg-blue-700 cursor-pointer"
+                ${isJoining
+                  ? "bg-gray-400"
+                  : "bg-blue-500 hover:bg-blue-700 cursor-pointer"
                 }`}
               onClick={handleJoin}
             >
